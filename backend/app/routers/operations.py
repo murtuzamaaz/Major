@@ -21,7 +21,8 @@ from fastapi.responses import JSONResponse
 from starlette.concurrency import run_in_threadpool
 from pydantic import BaseModel
 
-from backend.app.integrations import snowflake_service as snowflake_integration
+from backend.app.integrations import supabase_service as snowflake_integration
+
 from backend.app.core.settings import get_settings
 from backend.app.models.schemas import (
     AttackPlan,

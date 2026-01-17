@@ -69,6 +69,41 @@ class Settings(BaseSettings):
         populate_by_name=True,
     )
 
+    # ------------------------------------------------------------------
+    # Supabase / Postgres (Option B – DB_* env vars)
+    # ------------------------------------------------------------------
+
+    supabase_db_host: Optional[str] = Field(
+        default=None,
+        validation_alias=AliasChoices("DB_HOST"),
+        description="Supabase Postgres host",
+    )
+
+    supabase_db_name: Optional[str] = Field(
+        default=None,
+        validation_alias=AliasChoices("DB_NAME"),
+        description="Supabase Postgres database name",
+    )
+
+    supabase_db_user: Optional[str] = Field(
+        default=None,
+        validation_alias=AliasChoices("DB_USER"),
+        description="Supabase Postgres user",
+    )
+
+    supabase_db_password: Optional[str] = Field(
+        default=None,
+        validation_alias=AliasChoices("DB_PASSWORD"),
+        description="Supabase Postgres password",
+    )
+
+    supabase_db_port: Optional[int] = Field(
+        default=5432,
+        validation_alias=AliasChoices("DB_PORT"),
+        description="Supabase Postgres port",
+    )
+
+
 
 @lru_cache
 def get_settings() -> Settings:

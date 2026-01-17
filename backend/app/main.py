@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.app.core.settings import get_settings
-from backend.app.integrations import init_snowflake
+from backend.app.integrations.supabase_service import init_snowflake
 from backend.app.routers import ai, operations
 from backend.app.services.gradient_service import init_gradient, run_gradient_task
 import os

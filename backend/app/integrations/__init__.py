@@ -1,6 +1,6 @@
 """Integration helpers for external platforms used by CognitoForge Labs."""
 
-from .snowflake_service import (
+from .supabase_service import (
     fetch_latest_simulation_report,
     fetch_simulation_report,
     fetch_severity_summary,
