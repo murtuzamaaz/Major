@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   if (!domain || !clientId) {
     console.error(
-      "Auth0 credentials missing. Please check your environment variables."
+      "Auth0 credentials missing. Please check your environment variables.",
     );
     return <>{children}</>;
   }

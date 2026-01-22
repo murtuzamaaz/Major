@@ -1,4 +1,4 @@
-"""Sandbox simulation helpers for CognitoForge Labs."""
+"""Sandbox simulation helpers for ."""
 
 from __future__ import annotations
 

@@ -22,35 +22,69 @@ _REPO_ROOT = Path(__file__).resolve().parents[2] / "data" / "repos"
 _MANIFEST_NAME = "manifest.json"
 
 # Known indicators for higher risk configuration or secret-bearing files
+# Expanded risk patterns
 _HIGH_RISK_SUFFIXES = {
-    ".env",
-    ".yaml",
-    ".yml",
-    ".json",
-    ".ini",
-    ".cfg",
-    ".conf",
-    ".tf",
-    ".toml",
-    ".pem",
-    ".key",
-    ".ppk",
+    ".env", ".yaml", ".yml", ".json", ".ini", ".cfg", ".conf",
+    ".tf", ".toml", ".pem", ".key", ".ppk", ".p12", ".jks",
+    ".properties", ".config", ".xml", ".gradle", ".npmrc"
 }
+
 _HIGH_RISK_FILENAMES = {
-    "dockerfile",
-    "docker-compose.yml",
-    "docker-compose.yaml",
+    "dockerfile", "docker-compose.yml", "docker-compose.yaml",
+    ".dockerignore", "jenkinsfile", ".gitlab-ci.yml", ".travis.yml",
+    "circle.yml", "bitbucket-pipelines.yml", "azure-pipelines.yml",
+    "secrets", "credentials", "passwords", "token", "id_rsa",
+    "id_dsa", "known_hosts", ".htpasswd", "web.config"
 }
+
 _SENSITIVE_KEYWORDS = {
-    "secret",
-    "credential",
-    "token",
-    "password",
-    "config",
-    "deploy",
-    "workflow",
-    "env",
-    "key",
+    "secret", "credential", "token", "password", "config",
+    "deploy", "workflow", "env", "key", "private", "api_key",
+    "auth", "jwt", "session", "cookie", "database", "db_pass"
+}
+
+# NEW: Dangerous code patterns for content scanning
+_DANGEROUS_PATTERNS = {
+    'sql_injection': [
+        rb'execute\s*\(\s*[\'"].*?\+',
+        rb'query\s*\(\s*[\'"].*?\+',
+        rb'SELECT.*FROM.*WHERE.*\+',
+        rb'INSERT.*INTO.*VALUES.*\+',
+        rb'\.format\s*\(.*SELECT',
+        rb'f[\'"]SELECT.*\{',
+    ],
+    'command_injection': [
+        rb'os\.system\s*\(',
+        rb'subprocess\.call\s*\(',
+        rb'eval\s*\(',
+        rb'exec\s*\(',
+    ],
+    'hardcoded_secrets': [
+        rb'password\s*=\s*[\'"][^\'"]{8,}[\'"]',
+        rb'api_key\s*=\s*[\'"][^\'"]{20,}[\'"]',
+        rb'secret\s*=\s*[\'"][^\'"]{8,}[\'"]',
+        rb'AWS_SECRET_ACCESS_KEY\s*=',
+    ],
+    'xss_vulnerable': [
+        rb'innerHTML\s*=',
+        rb'dangerouslySetInnerHTML',
+        rb'document\.write\s*\(',
+    ],
+}
+
+# Dependency file patterns for outdated package detection
+_DEPENDENCY_FILES = {
+    'requirements.txt': 'python',
+    'Pipfile': 'python',
+    'package.json': 'nodejs',
+    'package-lock.json': 'nodejs',
+    'yarn.lock': 'nodejs',
+    'pom.xml': 'java',
+    'build.gradle': 'java',
+    'Gemfile': 'ruby',
+    'Cargo.toml': 'rust',
+    'go.mod': 'go',
+    'composer.json': 'php',
 }
 
 
@@ -190,35 +224,69 @@ def _write_manifest(repo_dir: Path, manifest: Dict[str, object]) -> None:
     with manifest_path.open("w", encoding="utf-8") as handle:
         json.dump(manifest, handle, indent=2)
 
-
-def _assess_risk(path: Path, rel_path: str) -> Tuple[str, List[str]]:
-    """Heuristically grade file risk level and provide reasoning tags."""
-
+def _assess_risk(path: Path, rel_path: str, max_size_kb: int = 500) -> Tuple[str, List[str]]:
+    """
+    Enhanced risk assessment with actual content analysis.
+    
+    Args:
+        path: Absolute path to file
+        rel_path: Relative path from repo root
+        max_size_kb: Maximum file size to scan (default 500KB)
+    
+    Returns:
+        Tuple of (risk_level, risk_reasons)
+    """
     reasons: List[str] = []
     suffix = path.suffix.lower()
     name = path.name.lower()
     rel_lower = rel_path.lower()
-
+    
+    # === 1. File-based heuristics ===
     if name in _HIGH_RISK_FILENAMES or suffix in _HIGH_RISK_SUFFIXES:
         reasons.append("Sensitive configuration or secret-bearing file")
-
+    
     if any(keyword in name for keyword in _SENSITIVE_KEYWORDS):
         reasons.append("Filename contains sensitive keyword")
-
-    if ".github/workflows" in rel_lower:
-        reasons.append("GitHub Actions workflow may expose CI secrets")
-
+    
+    if ".github/workflows" in rel_lower or ".gitlab-ci" in rel_lower:
+        reasons.append("CI/CD pipeline may expose secrets")
+    
     if "docker" in rel_lower and suffix in {"", ".yml", ".yaml"}:
-        reasons.append("Docker artefact impacting container security")
-
+        reasons.append("Docker configuration affecting container security")
+    
     if rel_lower.endswith("/config.json") or rel_lower.endswith("/config.yaml"):
         reasons.append("Configuration file with potential secrets")
-
-    if reasons:
+    
+    # === 2. NEW: Content-based analysis ===
+    code_extensions = {'.py', '.js', '.ts', '.java', '.php', '.rb', '.go', 
+                       '.c', '.cpp', '.cs', '.sql', '.sh', '.bash', '.ps1'}
+    
+    has_critical_vuln = False
+    
+    if suffix in code_extensions:
+        try:
+            file_size = path.stat().st_size
+            if file_size < max_size_kb * 1024:
+                content = path.read_bytes()
+                vulnerabilities = _scan_file_content(content, suffix)
+                
+                if vulnerabilities:
+                    for vuln_type in vulnerabilities:
+                        vuln_name = vuln_type.replace('_', ' ').title()
+                        reasons.append(f"CRITICAL: {vuln_name} detected")
+                        has_critical_vuln = True
+        except (OSError, UnicodeDecodeError, PermissionError):
+            pass
+    
+    # === 3. Risk level calculation ===
+    if has_critical_vuln:
+        return "critical", reasons
+    elif reasons:
         return "high", reasons
-    if suffix in {".sh", ".ps1", ".bat"}:
+    elif suffix in {".sh", ".ps1", ".bat"}:
         return "medium", ["Executable script"]
-    return "low", []
+    else:
+        return "low", []
 
 
 def _parse_github_repo(repo_url: str) -> Tuple[str, str]:
@@ -248,29 +316,66 @@ def load_repo_manifest(repo_id: str) -> Dict[str, object]:
         return json.load(handle)
 
 
-def select_high_risk_files(manifest: Dict[str, object], limit: int = 10) -> List[Dict[str, object]]:
-    """Return up to ``limit`` high-risk file entries from the manifest."""
 
-    files: Iterable[Dict[str, object]] = manifest.get("files", [])
-    high_risk = [file for file in files if file.get("risk_level") == "high"]
-
-    high_risk.sort(
-        key=lambda file: (
-            -len(file.get("risk_reasons", [])),
-            -file.get("size", 0),
-            file.get("path", ""),
-        )
-    )
-
-    if high_risk:
-        return high_risk[:limit]
-
-    # Fallback: choose the largest files if nothing was marked explicitly high risk
-    sorted_files = sorted(files, key=lambda file: file.get("size", 0), reverse=True)
+def select_high_risk_files(
+    manifest: Dict[str, object], 
+    limit: int = 15
+) -> List[Dict[str, object]]:
+    """
+    Enhanced version that prioritizes files with actual vulnerabilities.
+    """
+    files: List[Dict[str, object]] = manifest.get("files", [])
+    
+    # Prioritize by: critical vulns > high risk > file size
+    def priority_score(file: Dict) -> Tuple:
+        vulns = file.get("vulnerabilities", {})
+        risk = file.get("risk_level", "low")
+        
+        # Critical vulnerabilities get highest priority
+        if vulns:
+            return (0, len(vulns), -file.get("size", 0))
+        elif risk == "critical":
+            return (1, 0, -file.get("size", 0))
+        elif risk == "high":
+            return (2, 0, -file.get("size", 0))
+        elif risk == "medium":
+            return (3, 0, -file.get("size", 0))
+        else:
+            return (4, 0, -file.get("size", 0))
+    
+    sorted_files = sorted(files, key=priority_score)
     return sorted_files[:limit]
-
 
 def list_all_paths(manifest: Dict[str, object]) -> List[str]:
     """Return all file paths from the manifest."""
 
     return [file.get("path") for file in manifest.get("files", []) if file.get("path")]
+
+def _scan_file_content(content: bytes, file_ext: str) -> Dict[str, List[str]]:
+    """
+    Scan file content for vulnerability patterns.
+    
+    Returns:
+        Dict of {vulnerability_type: [descriptions]}
+    """
+    findings: Dict[str, List[str]] = {}
+    
+    for vuln_type, patterns in _DANGEROUS_PATTERNS.items():
+        matches = []
+        for pattern in patterns:
+            if re.search(pattern, content, re.IGNORECASE):
+                try:
+                    text = content.decode('utf-8', errors='ignore')
+                    for i, line in enumerate(text.split('\n'), 1):
+                        pattern_str = pattern.decode('utf-8', errors='ignore')
+                        if re.search(pattern_str, line, re.IGNORECASE):
+                            matches.append(f"Line {i}")
+                            break
+                except:
+                    matches.append("Pattern detected")
+                break
+        
+        if matches:
+            findings[vuln_type] = matches
+    
+    return findings

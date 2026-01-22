@@ -20,7 +20,7 @@ class Settings(BaseSettings):
         description="Google Gemini API key leveraged for adversarial planning.",
     )
     gemini_model: str = Field(
-        default="gemini-2.5-flash",
+        default="gemini-2.0-flash-thinking-exp-1219",  # Updated model
         description="Gemini model identifier used when generating AI insights.",
     )
     github_token: Optional[str] = Field(
