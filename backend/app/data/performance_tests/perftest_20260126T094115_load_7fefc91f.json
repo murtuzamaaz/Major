@@ -1,0 +1,42 @@
+{
+  "test_id": "perftest_20260126T094115_load_7fefc91f",
+  "target_url": "https://lords.ac.in/",
+  "status": "completed",
+  "timestamp": "2026-01-26T09:42:45.683006Z",
+  "config": {
+    "test_type": "load",
+    "vus": 10,
+    "duration": "30s",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/"
+      }
+    ]
+  },
+  "metrics": {
+    "requests": {
+      "total": 590,
+      "rate": 1.0,
+      "failed_rate": 0.0
+    },
+    "response_time": {
+      "avg": 547.2823747457628,
+      "min": 207.8469,
+      "max": 1354.0535,
+      "p50": 495.2796,
+      "p95": 1007.7998,
+      "p99": 1160.2436
+    },
+    "virtual_users": {
+      "max": 10,
+      "avg": 6.9
+    },
+    "checks": {
+      "passed": 0,
+      "failed": 0,
+      "pass_rate": 100.0
+    }
+  },
+  "k6_version": "k6.exe v1.3.0 (commit/5870e99ae8, go1.25.1, windows/amd64)"
+}

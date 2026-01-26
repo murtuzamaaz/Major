@@ -8,6 +8,7 @@ from typing import Any, Dict, List, Optional
 from fastapi import APIRouter, HTTPException
 from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, Field, HttpUrl
+from backend.app.services.performance_service import format_performance_test_response
 
 logger = logging.getLogger(__name__)
 
@@ -98,7 +99,7 @@ class PerformanceTestResult(BaseModel):
     k6_version: Optional[str] = None
 
 
-@router.post("/test", response_model=PerformanceTestResponse)
+@router.post("/test")
 async def start_performance_test(request: PerformanceTestRequest) -> PerformanceTestResponse:
     """
     Start a performance test on the specified URL.
@@ -240,12 +241,8 @@ async def start_performance_test(request: PerformanceTestRequest) -> Performance
             }
         )
         
-        return PerformanceTestResponse(
-            test_id=test_id,
-            status="completed",
-            message=f"{test_type.capitalize()} test completed. Total requests: {result['metrics']['requests']['total']}",
-            target_url=str(request.target_url)
-        )
+        formatted = format_performance_test_response(result)
+        return formatted
         
     except PerformanceTestError as exc:
         logger.error(

@@ -1,0 +1,58 @@
+{
+  "test_id": "perftest_20260126T104925_stress_ca0fd465",
+  "target_url": "https://api.example.com/",
+  "status": "completed",
+  "timestamp": "2026-01-26T11:05:48.846494Z",
+  "config": {
+    "test_type": "stress",
+    "vus": 100,
+    "duration": "2m",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "method": "GET",
+        "path": "/api/users"
+      }
+    ],
+    "headers": {
+      "Authorization": "Bearer test-token"
+    },
+    "thresholds": {
+      "http_req_duration": [
+        "p(95)<500"
+      ],
+      "http_req_failed": [
+        "rate<0.05"
+      ]
+    },
+    "timeout": 1200
+  },
+  "metrics": {
+    "requests": {
+      "total": 331370,
+      "rate": 1.0,
+      "failed_rate": 0.0
+    },
+    "response_time": {
+      "avg": 0.0,
+      "min": 0,
+      "max": 0,
+      "p50": 0,
+      "p95": 0,
+      "p99": 0
+    },
+    "virtual_users": {
+      "max": 300,
+      "avg": 174.84791666666666
+    },
+    "checks": {
+      "passed": 0,
+      "failed": 0,
+      "pass_rate": 100.0
+    }
+  },
+  "k6_version": "k6.exe v1.3.0 (commit/5870e99ae8, go1.25.1, windows/amd64)"
+}

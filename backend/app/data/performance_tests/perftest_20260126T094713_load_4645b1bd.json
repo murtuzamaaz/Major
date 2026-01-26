@@ -1,0 +1,59 @@
+{
+  "test_id": "perftest_20260126T094713_load_4645b1bd",
+  "target_url": "https://lords.ac.in/",
+  "status": "completed",
+  "timestamp": "2026-01-26T09:50:15.963283Z",
+  "config": {
+    "test_type": "load",
+    "vus": 50,
+    "duration": "2m",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/health"
+      },
+      {
+        "method": "GET",
+        "path": "/api/users"
+      }
+    ],
+    "headers": {
+      "Authorization": "Bearer test-token"
+    },
+    "ramp_up": "30s",
+    "thresholds": {
+      "http_req_duration": [
+        "p(95)<500"
+      ],
+      "http_req_failed": [
+        "rate<0.05"
+      ]
+    },
+    "timeout": 300
+  },
+  "metrics": {
+    "requests": {
+      "total": 1756,
+      "rate": 1.0,
+      "failed_rate": 0.0
+    },
+    "response_time": {
+      "avg": 4085.5790705011386,
+      "min": 0,
+      "max": 39346.5047,
+      "p50": 3907.2576,
+      "p95": 6595.5032,
+      "p99": 7707.2358
+    },
+    "virtual_users": {
+      "max": 50,
+      "avg": 43.408839779005525
+    },
+    "checks": {
+      "passed": 0,
+      "failed": 0,
+      "pass_rate": 100.0
+    }
+  },
+  "k6_version": "k6.exe v1.3.0 (commit/5870e99ae8, go1.25.1, windows/amd64)"
+}
