@@ -69,7 +69,7 @@ export function WelcomeDashboard({ onStartAnalysis }: { onStartAnalysis: () => v
       </motion.div>
 
       {/* Stats Grid */}
-      <motion.div
+      {/* <motion.div
         variants={staggerChildren}
         initial="initial"
         animate="animate"
@@ -114,7 +114,7 @@ export function WelcomeDashboard({ onStartAnalysis }: { onStartAnalysis: () => v
           </div>
           <h3 className="text-sm font-medium text-muted-foreground">Last Scan</h3>
         </motion.div>
-      </motion.div>
+      </motion.div> */}
 
       {/* Quick Actions */}
       <motion.div
@@ -133,12 +133,30 @@ export function WelcomeDashboard({ onStartAnalysis }: { onStartAnalysis: () => v
               <p className="text-sm text-muted-foreground mb-3">
                 Start a comprehensive security analysis of your repository
               </p>
-              <Button size="sm" className="w-full">
+              <Button size="sm" className="w-full" variant="purple">
                 Start Analysis
               </Button>
             </div>
           </div>
         </div>
+
+        <Link href="/dashboard" className="glass p-6 rounded-lg border border-border/40 hover:border-primary/50 transition-colors cursor-pointer group block">
+
+          <div className="flex items-start gap-4">
+            <div className="p-3 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors">
+              <Shield className="h-6 w-6 text-blue-500" />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-foreground mb-2">Security Dashboard</h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                view trends and insights across all your projects
+              </p>
+              <Button size="sm" variant="purple" className="w-full" >
+                Open Dashboard
+              </Button>
+            </div>
+          </div>
+        </Link>
 
         <div className="glass p-6 rounded-lg border border-border/40 hover:border-primary/50 transition-colors cursor-pointer group">
           <div className="flex items-start gap-4">
@@ -150,25 +168,44 @@ export function WelcomeDashboard({ onStartAnalysis }: { onStartAnalysis: () => v
               <p className="text-sm text-muted-foreground mb-3">
                 Access your previous security analysis reports
               </p>
-              <Button size="sm" variant="outline" className="w-full">
+              <Button size="sm" variant="purple" className="w-full">
                 View All Reports
               </Button>
             </div>
           </div>
         </div>
 
-        <Link href="/dashboard" className="glass p-6 rounded-lg border border-border/40 hover:border-primary/50 transition-colors cursor-pointer group block">
+        <Link href="/startTest" className="glass p-6 rounded-lg border border-border/40 hover:border-primary/50 transition-colors cursor-pointer group block">
+
           <div className="flex items-start gap-4">
             <div className="p-3 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors">
               <Shield className="h-6 w-6 text-blue-500" />
             </div>
             <div className="flex-1">
-              <h3 className="font-semibold text-foreground mb-2">Security Dashboard</h3>
+              <h3 className="font-semibold text-foreground mb-2">Performance Test</h3>
               <p className="text-sm text-muted-foreground mb-3">
                 View trends and insights across all your projects
               </p>
-              <Button size="sm" variant="outline" className="w-full">
-                Open Dashboard
+              <Button size="sm" variant="outline" className="w-full" variant="purple">
+                Start Test
+              </Button>
+            </div>
+          </div>
+        </Link>
+
+        <Link href="/intrusionTest" className="glass p-6 rounded-lg border border-border/40 hover:border-primary/50 transition-colors cursor-pointer group block">
+
+          <div className="flex items-start gap-4">
+            <div className="p-3 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors">
+              <Shield className="h-6 w-6 text-blue-500" />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-foreground mb-2">Intrusion Test</h3>
+              <p className="text-sm text-muted-foreground mb-3">
+                testing a system for unauthorized access.
+              </p>
+              <Button size="sm" variant="purple" className="w-full" >
+                Intrusion Test
               </Button>
             </div>
           </div>
@@ -177,8 +214,9 @@ export function WelcomeDashboard({ onStartAnalysis }: { onStartAnalysis: () => v
         {/* AI Security Analyst Card - NEW! */}
         <motion.div 
           variants={fadeIn}
-          className="glass p-6 rounded-lg border border-purple-500/40 hover:border-purple-500/70 transition-all duration-300 cursor-pointer group hover:shadow-lg hover:shadow-purple-500/20"
+          className="glass p-6 rounded-lg border border-[#614334]/40 hover:border-[#614334]/70 transition-all duration-300 cursor-pointer group hover:shadow-lg hover:shadow-[#614334]/20"
           onClick={() => setShowAIPanel(true)}
+  
         >
           <div className="flex items-start gap-4">
             <div className="p-3 bg-purple-500/10 rounded-lg group-hover:bg-purple-500/20 transition-colors">
@@ -186,13 +224,13 @@ export function WelcomeDashboard({ onStartAnalysis }: { onStartAnalysis: () => v
             </div>
             <div className="flex-1">
               <h3 className="font-semibold text-foreground mb-1 flex items-center gap-2">
-                AI Analyst
+                Code Assist
                 <span className="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
                   NEW
                 </span>
               </h3>
               <p className="text-sm text-muted-foreground mb-3">
-                Get AI-powered security insights
+                Get AI-powered code assistance
               </p>
               <Button size="sm" variant="purple" className="w-full">
                 Ask Gemini
@@ -200,10 +238,10 @@ export function WelcomeDashboard({ onStartAnalysis }: { onStartAnalysis: () => v
             </div>
           </div>
         </motion.div>
-      </motion.div>
+      </motion.div> 
 
       {/* Recent Activity */}
-      <motion.div
+      {/*  <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.4 }}
@@ -256,7 +294,7 @@ export function WelcomeDashboard({ onStartAnalysis }: { onStartAnalysis: () => v
             </div>
           </div>
         </div>
-      </motion.div>
+      </motion.div> */}
 
       {/* AI Panel Modal */}
       <AnimatePresence>

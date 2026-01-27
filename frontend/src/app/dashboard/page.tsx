@@ -19,7 +19,7 @@ export default function DashboardPage() {
                   CognitoForge
                 </Link>
                 <div className="h-6 w-px bg-border/40" />
-                <span className="text-muted-foreground">Security Dashboard</span>
+                <span className="text-muted-foreground">Performance Test</span>
               </div>
               
               <div className="flex items-center gap-4">
