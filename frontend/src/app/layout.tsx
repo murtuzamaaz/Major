@@ -6,7 +6,7 @@ import { AuthProvider } from '@/components/auth';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'ThreadForge - AI Red Team Testing',
+  title: 'ThreatForge - AI Red Team Testing',
   description: 'AI-powered red team testing platform that simulates intelligent attacks on your code, CI/CD pipelines, and infrastructure before real hackers do.',
   keywords: 'cybersecurity, red team testing, AI security, vulnerability testing, DevSecOps',
   authors: [{ name: 'CognitoForge' }],

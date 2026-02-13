@@ -412,7 +412,7 @@ export function Dashboard() {
       {/* Snowflake & Gradient Status Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Snowflake Analytics */}
-        <div className="glass p-6 rounded-lg border border-blue-500/20">
+        {/* <div className="glass p-6 rounded-lg border border-blue-500/20">
           <div className="flex items-center gap-3 mb-4">
             <div className="p-2 bg-blue-500/10 rounded-lg">
               <Database className="h-5 w-5 text-blue-500" />
@@ -453,6 +453,7 @@ export function Dashboard() {
             </div>
           )}
         </div>
+        */}
 
         {/* Gradient Status */}
         <div className="glass p-6 rounded-lg border border-purple-500/20">

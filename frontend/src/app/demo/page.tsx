@@ -69,7 +69,7 @@ function RepoInputForm({ onSubmit, isLoading }: {
   onSubmit: (repoUrl: string, analysisType: string) => void; 
   isLoading: boolean;
 }) {
-  const [repoUrl, setRepoUrl] = useState('https://github.com/OWASP/NodeGoat');
+  const [repoUrl, setRepoUrl] = useState('');
   const [analysisType, setAnalysisType] = useState('comprehensive');
   const [errors, setErrors] = useState<string[]>([]);
   const [touched, setTouched] = useState({ repoUrl: false, analysisType: false });
@@ -885,3 +885,5 @@ export default function DemoPage() {
     </ProtectedRoute>
   );
 }
+
+

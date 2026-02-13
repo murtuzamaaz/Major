@@ -7,10 +7,14 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { GeminiPanel } from './GeminiPanel';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
+
 
 export function WelcomeDashboard({ onStartAnalysis }: { onStartAnalysis: () => void }) {
   const { user } = useAuth0();
   const [showAIPanel, setShowAIPanel] = useState(false);
+  const router = useRouter();
+
 
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
@@ -118,11 +122,12 @@ export function WelcomeDashboard({ onStartAnalysis }: { onStartAnalysis: () => v
 
       {/* Quick Actions */}
       <motion.div
-        variants={staggerChildren}
-        initial="initial"
-        animate="animate"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
-      >
+  variants={staggerChildren}
+  initial="initial"
+  animate="animate"
+  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
+>
+
         <div className="glass p-6 rounded-lg border border-border/40 hover:border-primary/50 transition-colors cursor-pointer group" onClick={onStartAnalysis}>
           <div className="flex items-start gap-4">
             <div className="p-3 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors">
@@ -212,32 +217,29 @@ export function WelcomeDashboard({ onStartAnalysis }: { onStartAnalysis: () => v
         </Link>
 
         {/* AI Security Analyst Card - NEW! */}
-        <motion.div 
-          variants={fadeIn}
-          className="glass p-6 rounded-lg border border-[#614334]/40 hover:border-[#614334]/70 transition-all duration-300 cursor-pointer group hover:shadow-lg hover:shadow-[#614334]/20"
-          onClick={() => setShowAIPanel(true)}
-  
-        >
-          <div className="flex items-start gap-4">
-            <div className="p-3 bg-purple-500/10 rounded-lg group-hover:bg-purple-500/20 transition-colors">
-              <Sparkles className="h-6 w-6 text-purple-400 group-hover:animate-pulse" />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-semibold text-foreground mb-1 flex items-center gap-2">
-                Code Assist
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                  NEW
-                </span>
-              </h3>
-              <p className="text-sm text-muted-foreground mb-3">
-                Get AI-powered code assistance
-              </p>
-              <Button size="sm" variant="purple" className="w-full">
-                Ask Gemini
-              </Button>
-            </div>
-          </div>
-        </motion.div>
+        <motion.div
+  variants={fadeIn}
+  className="glass p-6 rounded-lg border border-[#614334]/40 hover:border-[#614334]/70 transition-all duration-300 cursor-pointer group hover:shadow-lg hover:shadow-[#614334]/20"
+  onClick={() => router.push("/assist")}
+>
+  <div className="flex items-start gap-4">
+    <div className="p-3 bg-purple-500/10 rounded-lg group-hover:bg-purple-500/20 transition-colors">
+      <Sparkles className="h-6 w-6 text-purple-400 group-hover:animate-pulse" />
+    </div>
+    <div className="flex-1">
+      <h3 className="font-semibold text-foreground mb-1 flex items-center gap-2">
+        Code Assist
+      </h3>
+      <p className="text-sm text-muted-foreground mb-3">
+        Get AI-powered code assistance
+      </p>
+      <Button size="sm" variant="purple" className="w-full">
+        Assist
+      </Button>
+    </div>
+  </div>
+</motion.div>
+
       </motion.div> 
 
       {/* Recent Activity */}
