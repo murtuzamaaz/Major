@@ -7,3 +7,5 @@ requests>=2.31,<3.0
 httpx>=0.24.0,<1.0
 google-generativeai>=0.7.0,<1.0
 psycopg2-binary>=2.9.0,<3.0
+faiss-cpu
+numpy

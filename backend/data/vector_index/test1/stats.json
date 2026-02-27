@@ -1,0 +1,28 @@
+{
+  "total_chunks": 36,
+  "embedding_dimension": 768,
+  "chunk_types": {
+    "project_metadata": 1,
+    "imports": 12,
+    "markdown_section": 10,
+    "function": 12,
+    "file_comment": 1
+  },
+  "files": [
+    "src/pages/Login/Login.jsx",
+    "PROJECT_OVERVIEW",
+    "src/components/Navbar/Navbar.jsx",
+    "README.md",
+    "src/firebase.js",
+    "src/components/Footer/Footer.jsx",
+    "src/assets/cards/Cards_data.js",
+    "src/main.jsx",
+    "src/pages/Home/Home.jsx",
+    "src/pages/Player/Player.jsx",
+    "src/App.jsx",
+    "vite.config.js",
+    "src/components/TitleCards/TitleCards.jsx",
+    "eslint.config.js"
+  ],
+  "total_files": 14
+}

@@ -66,17 +66,22 @@ async def startup_event() -> None:
     try:
         client = init_snowflake()
         if client is not None:
-            logger.info("Snowflake integration initialised")
+            logger.info("Supabase integration initialised")
         else:
-            logger.debug("Snowflake integration skipped (configuration missing or connector absent)")
+            logger.debug("Supabase integration skipped (configuration missing or connector absent)")
     except Exception as exc:  # noqa: BLE001
-        logger.exception("Snowflake integration initialisation failed", extra={"error": str(exc)})
+        logger.exception("Supabase integration initialisation failed", extra={"error": str(exc)})
 
     try:
         init_gradient()
         logger.debug("Gradient task handler ready", extra={"callable": run_gradient_task.__name__})
     except Exception as exc:  # noqa: BLE001
         logger.exception("Gradient integration initialisation failed", extra={"error": str(exc)})
+        
+    try:
+        logger.info("Code Assist service ready")
+    except Exception as exc:
+        logger.warning(f"Code Assist initialization skipped: {exc}")
 
 
 @app.get("/health")
