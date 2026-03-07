@@ -1,0 +1,18 @@
+{
+  "total_chunks": 26,
+  "embedding_dimension": 768,
+  "chunk_types": {
+    "project_metadata": 1,
+    "function": 25
+  },
+  "files": [
+    "controller/productCtrl.js",
+    "controller/userCtrl.js",
+    "utils/crypt.js",
+    "server-node.js",
+    "controller/bookCtrl.js",
+    "middleware/auth.js",
+    "PROJECT_OVERVIEW"
+  ],
+  "total_files": 7
+}
