@@ -1,0 +1,49 @@
+{
+  "test_id": "perftest_20260308T104317_smoke_05715449",
+  "target_url": "https://chatgpt.com/c/69abf1d2-572c-83a7-8bbe-42aeb0f4e275",
+  "status": "completed",
+  "timestamp": "2026-03-08T10:45:19.808447Z",
+  "config": {
+    "test_type": "smoke",
+    "vus": 5,
+    "duration": "2m",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/health"
+      }
+    ],
+    "headers": {},
+    "timeout": 180
+  },
+  "metrics": {
+    "requests": {
+      "total": 231,
+      "successful": 0,
+      "failed": 231,
+      "rate": 0,
+      "failed_rate": 100.0,
+      "success_rate": 0.0,
+      "status_codes": {}
+    },
+    "response_time": {
+      "avg": 973.56,
+      "min": 424.11,
+      "max": 3027.73,
+      "p50": 919.76,
+      "p95": 1292.76,
+      "p99": 1612.47
+    },
+    "virtual_users": {
+      "max": 5,
+      "avg": 3.5
+    },
+    "checks": {
+      "passed": 0,
+      "failed": 231,
+      "pass_rate": 0.0
+    }
+  },
+  "k6_version": "k6.exe v1.3.0 (commit/5870e99ae8, go1.25.1, windows/amd64)",
+  "_mock": false
+}

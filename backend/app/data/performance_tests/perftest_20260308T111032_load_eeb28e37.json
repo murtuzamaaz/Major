@@ -1,0 +1,50 @@
+{
+  "test_id": "perftest_20260308T111032_load_eeb28e37",
+  "target_url": "https://www.lordsautomation.com/Login.aspx",
+  "status": "completed",
+  "timestamp": "2026-03-08T11:13:41.542322Z",
+  "config": {
+    "test_type": "load",
+    "vus": 1000,
+    "duration": "2m",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/Login.aspx"
+      }
+    ],
+    "headers": {},
+    "ramp_up": "10s",
+    "timeout": 300
+  },
+  "metrics": {
+    "requests": {
+      "total": 48110,
+      "successful": 47775,
+      "failed": 335,
+      "rate": 0,
+      "failed_rate": 0.7,
+      "success_rate": 99.3,
+      "status_codes": {}
+    },
+    "response_time": {
+      "avg": 1908.27,
+      "min": 9.14,
+      "max": 60002.95,
+      "p50": 845.47,
+      "p95": 5270.42,
+      "p99": 31147.54
+    },
+    "virtual_users": {
+      "max": 1000,
+      "avg": 700.0
+    },
+    "checks": {
+      "passed": 47775,
+      "failed": 335,
+      "pass_rate": 99.3
+    }
+  },
+  "k6_version": "k6.exe v1.3.0 (commit/5870e99ae8, go1.25.1, windows/amd64)",
+  "_mock": false
+}

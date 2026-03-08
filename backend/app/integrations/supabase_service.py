@@ -262,6 +262,135 @@ def fetch_severity_summary() -> Dict[str, int]:
 
     return summary
 
+def store_performance_run(repo_id: str, run_id: str, data: Dict[str, Any]) -> bool:
+    try:
+        conn = _get_conn()
+
+        metrics = data.get("metrics", {})
+        req = metrics.get("requests", {})
+        rt = metrics.get("response_time", {})
+        vus = metrics.get("virtual_users", {})
+
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                INSERT INTO performance_runs (
+                    repo_id,
+                    run_id,
+                    target_url,
+                    test_type,
+                    duration,
+                    vus_max,
+                    vus_avg,
+                    total_requests,
+                    successful_requests,
+                    failed_requests,
+                    success_rate,
+                    failure_rate,
+                    avg_response_time,
+                    min_response_time,
+                    max_response_time,
+                    p50_response_time,
+                    p95_response_time,
+                    p99_response_time
+                )
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                """,
+                (
+                    repo_id,
+                    run_id,
+                    data.get("target_url"),
+                    data.get("config", {}).get("test_type"),
+                    data.get("config", {}).get("duration"),
+                    vus.get("max"),
+                    vus.get("avg"),
+                    req.get("total"),
+                    req.get("successful"),
+                    req.get("failed"),
+                    req.get("success_rate"),
+                    req.get("failed_rate"),
+                    rt.get("avg"),
+                    rt.get("min"),
+                    rt.get("max"),
+                    rt.get("p50"),
+                    rt.get("p95"),
+                    rt.get("p99"),
+                ),
+            )
+
+        return True
+
+    except Exception as e:
+        print("Failed storing performance metrics:", e)
+        return False
+
+
+
+def fetch_performance_run(run_id: str):
+    try:
+        conn = _get_conn()
+
+        with conn.cursor() as cur:
+            cur.execute(
+                """
+                SELECT
+                    repo_id,
+                    run_id,
+                    target_url,
+                    test_type,
+                    duration,
+                    vus_max,
+                    vus_avg,
+                    total_requests,
+                    successful_requests,
+                    failed_requests,
+                    success_rate,
+                    failure_rate,
+                    avg_response_time,
+                    min_response_time,
+                    max_response_time,
+                    p50_response_time,
+                    p95_response_time,
+                    p99_response_time,
+                    created_at
+                FROM performance_runs
+                WHERE run_id = %s
+                LIMIT 1
+                """,
+                (run_id,)
+            )
+
+            row = cur.fetchone()
+
+        if not row:
+            return None
+
+        return {
+            "repo_id": row[0],
+            "run_id": row[1],
+            "target_url": row[2],
+            "test_type": row[3],
+            "duration": row[4],
+            "vus_max": row[5],
+            "vus_avg": row[6],
+            "total_requests": row[7],
+            "successful_requests": row[8],
+            "failed_requests": row[9],
+            "success_rate": row[10],
+            "failure_rate": row[11],
+            "avg_response_time": row[12],
+            "min_response_time": row[13],
+            "max_response_time": row[14],
+            "p50_response_time": row[15],
+            "p95_response_time": row[16],
+            "p99_response_time": row[17],
+            "created_at": row[18],
+        }
+
+    except Exception as e:
+        print("Error fetching performance run:", e)
+        return None
+    
 
 __all__ = [
     "init_snowflake",
@@ -271,4 +400,6 @@ __all__ = [
     "fetch_latest_simulation_report",
     "fetch_simulation_report",
     "fetch_severity_summary",
+    "store_performance_run",
+    "fetch_performance_run",
 ]

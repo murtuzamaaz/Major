@@ -722,3 +722,65 @@ async def run_soak_test(
     )
     
     return await start_performance_test(request)
+
+
+@router.get("/db/{repo_id}")
+async def get_performance_runs(repo_id: str):
+    from app.integrations.supabase_service import _get_conn
+
+    conn = _get_conn()
+
+    with conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT
+                run_id,
+                test_type,
+                duration,
+                vus_max,
+                total_requests,
+                success_rate,
+                avg_response_time,
+                p95_response_time,
+                created_at
+            FROM performance_runs
+            WHERE repo_id = %s
+            ORDER BY created_at DESC
+            LIMIT 50
+            """,
+            (repo_id,)
+        )
+
+        rows = cur.fetchall()
+
+    results = []
+
+    for r in rows:
+        results.append({
+            "run_id": r[0],
+            "test_type": r[1],
+            "duration": r[2],
+            "vus": r[3],
+            "requests": r[4],
+            "success_rate": r[5],
+            "avg_response_time": r[6],
+            "p95_response_time": r[7],
+            "created_at": r[8]
+        })
+
+    return {"results": results}
+
+
+@router.get("/db/run/{run_id}")
+async def get_performance_run(run_id: str):
+    from app.integrations.supabase_service import fetch_performance_run
+
+    result = fetch_performance_run(run_id)
+
+    if not result:
+        raise HTTPException(
+            status_code=404,
+            detail="Performance run not found"
+        )
+
+    return result

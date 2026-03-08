@@ -1,0 +1,16 @@
+{
+  "total_chunks": 20,
+  "embedding_dimension": 768,
+  "chunk_types": {
+    "project_metadata": 1,
+    "markdown_section": 18,
+    "code_block": 1
+  },
+  "files": [
+    "requirments.txt",
+    "README.md",
+    "PROJECT_OVERVIEW",
+    "Readme.md"
+  ],
+  "total_files": 4
+}
