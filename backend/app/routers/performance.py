@@ -726,7 +726,7 @@ async def run_soak_test(
 
 @router.get("/db/{repo_id}")
 async def get_performance_runs(repo_id: str):
-    from app.integrations.supabase_service import _get_conn
+    from backend.app.integrations.supabase_service import _get_conn
 
     conn = _get_conn()
 
@@ -773,7 +773,7 @@ async def get_performance_runs(repo_id: str):
 
 @router.get("/db/run/{run_id}")
 async def get_performance_run(run_id: str):
-    from app.integrations.supabase_service import fetch_performance_run
+    from backend.app.integrations.supabase_service import fetch_performance_run
 
     result = fetch_performance_run(run_id)
 

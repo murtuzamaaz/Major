@@ -1,0 +1,17 @@
+{
+  "total_chunks": 19,
+  "embedding_dimension": 768,
+  "chunk_types": {
+    "project_metadata": 1,
+    "markdown_section": 16,
+    "code_block": 1,
+    "imports": 1
+  },
+  "files": [
+    "README.md",
+    "PROJECT_OVERVIEW",
+    "app/main.py",
+    "requirements.txt"
+  ],
+  "total_files": 4
+}

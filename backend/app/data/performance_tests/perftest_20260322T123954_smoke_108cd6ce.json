@@ -1,0 +1,49 @@
+{
+  "test_id": "perftest_20260322T123954_smoke_108cd6ce",
+  "target_url": "https://owasp.org/www-project-juice-shop/",
+  "status": "completed",
+  "timestamp": "2026-03-22T12:41:55.767847Z",
+  "config": {
+    "test_type": "smoke",
+    "vus": 5,
+    "duration": "2m",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/health"
+      }
+    ],
+    "headers": {},
+    "timeout": 180
+  },
+  "metrics": {
+    "requests": {
+      "total": 375,
+      "successful": 0,
+      "failed": 375,
+      "rate": 0,
+      "failed_rate": 100.0,
+      "success_rate": 0.0,
+      "status_codes": {}
+    },
+    "response_time": {
+      "avg": 196.64,
+      "min": 71.23,
+      "max": 1060.64,
+      "p50": 193.08,
+      "p95": 291.59,
+      "p99": 573.46
+    },
+    "virtual_users": {
+      "max": 5,
+      "avg": 3.5
+    },
+    "checks": {
+      "passed": 0,
+      "failed": 375,
+      "pass_rate": 0.0
+    }
+  },
+  "k6_version": "k6.exe v1.3.0 (commit/5870e99ae8, go1.25.1, windows/amd64)",
+  "_mock": false
+}

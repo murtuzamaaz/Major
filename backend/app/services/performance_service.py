@@ -816,7 +816,7 @@ def _save_test_result(test_id: str, result: Dict[str, Any]) -> None:
 
     # store metrics in database
     try:
-        from app.integrations.supabase_service import store_performance_run
+        from backend.app.integrations.supabase_service import store_performance_run
 
         repo_id = "performance_repo"  # or map to repo if needed
         run_id = test_id
