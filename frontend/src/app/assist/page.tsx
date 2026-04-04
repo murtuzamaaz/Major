@@ -18,7 +18,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { FlickeringGrid } from "@/components/ui/flickering-grid";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || "https://threatforge.duckdns.org";
 
 type Mode = "select" | "url" | "indexed";
 

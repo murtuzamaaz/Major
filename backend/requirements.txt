@@ -11,3 +11,4 @@ faiss-cpu
 numpy
 groq 
 sentence-transformers
+httpx[http2]

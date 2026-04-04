@@ -2,7 +2,7 @@
 // API service for backend communication
 
 // Get backend URL from environment variable with fallback
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || process.env.NEXT_PUBLIC_API_URL || "https:threatforge.duckdns.org";
 //noalf
 /**
  * Base API configuration
