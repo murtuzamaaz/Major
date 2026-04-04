@@ -72,7 +72,9 @@ export function Dashboard() {
       setIsRefreshing(true);
 
       // Fetch all dashboard KPIs and recent simulations in parallel from DB
-      const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL;
+      const API_BASE =
+        process.env.NEXT_PUBLIC_BACKEND_URL ||
+        "https://threatforge.duckdns.org";
 
       const [metricsRes, recentsRes, gradientRes] = await Promise.all([
         fetch(`${API_BASE}/api/dashboard/metrics`),

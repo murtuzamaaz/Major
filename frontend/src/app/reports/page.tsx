@@ -112,7 +112,8 @@ interface IntrusionReport {
 // Config
 // ─────────────────────────────────────────────────────────────────────────────
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL || "https://threatforge.duckdns.org";
 
 const MODULE_CFG = {
   vulnerability: {

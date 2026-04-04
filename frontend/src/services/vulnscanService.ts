@@ -1,7 +1,7 @@
 // services/vulnscanService.ts
 // VulnScan API Service Layer — integrates with backend at localhost:8000
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://threatforge.duckdns.org";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
