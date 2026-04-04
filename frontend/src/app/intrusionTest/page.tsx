@@ -32,7 +32,7 @@ import { FlickeringGrid } from "@/components/ui/flickering-grid";
 
 // ─── Inline API Service ───────────────────────────────────────────────────────
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 async function apiFetch<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE_URL}${path}`, {
@@ -1823,7 +1823,7 @@ export default function IntrusionTestPage() {
               Intrusion <span className="gradient-text">Test</span>
             </h1>
             <p className="text-muted-foreground text-sm">
-              Vulnerability scanning powered by VulnScan API · localhost:8000
+              Vulnerability scanning powered by VulnScan API
             </p>
           </div>
 

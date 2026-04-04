@@ -1,0 +1,49 @@
+{
+  "test_id": "perftest_20260402T135733_smoke_3d8fcd72",
+  "target_url": "https://owasp.org/www-project-webgoat/",
+  "status": "completed",
+  "timestamp": "2026-04-02T13:59:38.104882Z",
+  "config": {
+    "test_type": "smoke",
+    "vus": 5,
+    "duration": "2m",
+    "endpoints": [
+      {
+        "method": "GET",
+        "path": "/health"
+      }
+    ],
+    "headers": {},
+    "timeout": 180
+  },
+  "metrics": {
+    "requests": {
+      "total": 416,
+      "successful": 0,
+      "failed": 416,
+      "rate": 0,
+      "failed_rate": 100.0,
+      "success_rate": 0.0,
+      "status_codes": {}
+    },
+    "response_time": {
+      "avg": 87.6,
+      "min": 69.07,
+      "max": 494.73,
+      "p50": 79.64,
+      "p95": 128.27,
+      "p99": 146.21
+    },
+    "virtual_users": {
+      "max": 5,
+      "avg": 3.5
+    },
+    "checks": {
+      "passed": 0,
+      "failed": 416,
+      "pass_rate": 0.0
+    }
+  },
+  "k6_version": "k6.exe v1.3.0 (commit/5870e99ae8, go1.25.1, windows/amd64)",
+  "_mock": false
+}

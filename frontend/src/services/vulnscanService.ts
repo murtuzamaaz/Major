@@ -1,7 +1,7 @@
 // services/vulnscanService.ts
 // VulnScan API Service Layer — integrates with backend at localhost:8000
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

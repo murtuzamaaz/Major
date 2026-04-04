@@ -72,8 +72,7 @@ export function Dashboard() {
       setIsRefreshing(true);
 
       // Fetch all dashboard KPIs and recent simulations in parallel from DB
-      const API_BASE =
-        process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+      const API_BASE = process.env.NEXT_PUBLIC_BACKEND_URL;
 
       const [metricsRes, recentsRes, gradientRes] = await Promise.all([
         fetch(`${API_BASE}/api/dashboard/metrics`),

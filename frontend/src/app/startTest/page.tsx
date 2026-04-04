@@ -20,6 +20,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { FlickeringGrid } from "@/components/ui/flickering-grid";
 
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_BACKEND_URL;
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface TestConfig {
@@ -209,8 +212,7 @@ export default function StartTestPage() {
       if (config.testType === "quick") {
         setStatusMsg("Running quick performance test…");
         const res = await fetch(
-          `http://localhost:8000/api/performance/test/quick?target_url=${encodeURIComponent(config.targetUrl)}`,
-          { method: "POST" },
+          `${API_BASE}/api/performance/test/quick?target_url=${encodeURIComponent(config.targetUrl)}`,
         );
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
@@ -226,7 +228,7 @@ export default function StartTestPage() {
           ramp_up: config.rampUp,
           endpoints: [{ method: "GET", path }],
         };
-        const res = await fetch("http://localhost:8000/api/performance/test", {
+        const res = await fetch(`${API_BASE}/api/performance/test`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
@@ -238,9 +240,7 @@ export default function StartTestPage() {
 
       // STEP 2 — fetch detailed metrics
       setStatusMsg("Fetching detailed metrics from database…");
-      const dbRes = await fetch(
-        `http://localhost:8000/api/performance/db/run/${testId}`,
-      );
+      const dbRes = await fetch(`${API_BASE}/api/performance/db/run/${testId}`);
       if (!dbRes.ok) throw new Error(`DB fetch failed: HTTP ${dbRes.status}`);
       const metrics: TestResult = await dbRes.json();
 

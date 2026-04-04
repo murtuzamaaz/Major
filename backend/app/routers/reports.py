@@ -1,4 +1,15 @@
+"""
+Reports router for the CognitoForge Reports page.
 
+Correct table mapping:
+  Vulnerability Scan → affected_files + ai_insights  (AI red-team MITRE simulation)
+  Performance Test   → performance_runs               (k6 load/stress/spike/smoke)
+  Intrusion Test     → vulnscan_scans + vulnscan_findings  (passive web scanner)
+
+Register in main.py:
+    from backend.app.routers import reports
+    app.include_router(reports.router)
+"""
 
 from __future__ import annotations
 
