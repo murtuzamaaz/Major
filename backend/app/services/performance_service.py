@@ -24,7 +24,7 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 # Storage for test results
-_RESULTS_DIR = Path(__file__).resolve().parents[1] / "data" / "performance_tests"
+_RESULTS_DIR = Path(__file__).resolve().parents[3] / "data" / "performance_tests"
 _RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 
 

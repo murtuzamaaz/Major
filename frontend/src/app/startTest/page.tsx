@@ -208,7 +208,7 @@ export default function StartTestPage() {
     setResult(null);
 
     try {
-      let testId: string;
+      let responseData: any;
 
       // STEP 1 — start test
       if (config.testType === "quick") {
@@ -217,8 +217,7 @@ export default function StartTestPage() {
           `${API_BASE}/api/performance/test/quick?target_url=${encodeURIComponent(config.targetUrl)}`,
         );
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        testId = data.test_id;
+        responseData = await res.json();
       } else {
         setStatusMsg(`Starting ${TEST_LABELS[config.testType]}…`);
         const path = extractPath(config.targetUrl);
@@ -236,15 +235,38 @@ export default function StartTestPage() {
           body: JSON.stringify(body),
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        testId = data.test_id;
+        responseData = await res.json();
       }
 
-      // STEP 2 — fetch detailed metrics
-      setStatusMsg("Fetching detailed metrics from database…");
-      const dbRes = await fetch(`${API_BASE}/api/performance/db/run/${testId}`);
-      if (!dbRes.ok) throw new Error(`DB fetch failed: HTTP ${dbRes.status}`);
-      const metrics: TestResult = await dbRes.json();
+      // STEP 2 — map response directly, no DB round-trip needed
+      setStatusMsg("Processing results…");
+
+      const pm =
+        responseData?.performance_metrics ?? responseData?.metrics ?? {};
+      const rt = pm?.response_time_ms ?? pm?.response_time ?? {};
+      const req = pm?.requests ?? {};
+      const vu = pm?.virtual_users ?? {};
+
+      const metrics: TestResult = {
+        run_id: responseData.test_id ?? "",
+        target_url: responseData.target_url ?? config.targetUrl,
+        test_type: responseData.test_config?.test_type ?? config.testType,
+        duration: responseData.test_config?.duration ?? config.duration,
+        vus_max: vu.maximum ?? vu.max ?? config.vus,
+        vus_avg: vu.average ?? vu.avg ?? 0,
+        total_requests: req.total ?? 0,
+        successful_requests: req.successful ?? 0,
+        failed_requests: req.failed ?? 0,
+        success_rate: req.success_rate_percent ?? req.success_rate ?? 0,
+        failure_rate: req.failed_rate_percent ?? req.failed_rate ?? 0,
+        avg_response_time: rt.average ?? rt.avg ?? 0,
+        min_response_time: rt.minimum ?? rt.min ?? 0,
+        max_response_time: rt.maximum ?? rt.max ?? 0,
+        p50_response_time: rt.median_p50 ?? rt.p50 ?? 0,
+        p95_response_time: rt.percentile_95 ?? rt.p95 ?? 0,
+        p99_response_time: rt.percentile_99 ?? rt.p99 ?? 0,
+        created_at: responseData.timestamp ?? new Date().toISOString(),
+      };
 
       setResult(metrics);
       setPhase("done");

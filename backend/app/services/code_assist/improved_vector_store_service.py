@@ -8,7 +8,7 @@ import pickle
 from pathlib import Path
 from typing import List, Tuple
 
-BASE_INDEX_DIR = Path("data/vector_index")
+BASE_INDEX_DIR = Path(__file__).resolve().parents[4] / "data" / "vector_index"
 
 
 def get_index_path(repo_id: str):

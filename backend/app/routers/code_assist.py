@@ -44,7 +44,9 @@ def index_repo(repo_id: str):
     ```
     """
     try:
-        repo_path = Path("data/repos") / repo_id
+        _REPO_ROOT = Path(__file__).resolve().parents[3] / "data" / "repos"
+# then use:
+        repo_path = _REPO_ROOT / repo_id
 
         if not repo_path.exists():
             raise HTTPException(
