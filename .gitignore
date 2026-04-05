@@ -104,3 +104,6 @@ auth0-deploy-cli-state.json
 # Simulation data (test/local data)
 backend/app/data/simulations/*.json
 backend/data/repos/
+backend/app/data/simulations/
+backend/app/data/performance_tests/
+backend/data/vector_index/

@@ -5,17 +5,26 @@ from pathlib import Path
 from pydantic import BaseModel
 
 from backend.app.services.code_assist.improved_ingestion_service import (
-    ingest_repository_from_path
+    ingest_repository_from_path,
 )
 from backend.app.services.code_assist.improved_query_service import ask_question
 
 router = APIRouter(prefix="/code-assist", tags=["Code Assist"])
 
-
-# class IndexRequest(BaseModel):
-#     """Request to index a repository."""
-#     repo_id: str
-#     repo_path: str  # Path to repository on disk
+# ── Path anchoring ────────────────────────────────────────────────────────────
+# This file:  <project_root>/backend/app/routers/code_assist.py
+#   parents[0] = backend/app/routers
+#   parents[1] = backend/app
+#   parents[2] = backend
+#   parents[3] = <project_root>          ← same anchor as main.py's parent
+#
+# repo_fetcher.py: <project_root>/backend/app/services/repo_fetcher.py
+#   parents[3] = <project_root>          ← identical
+#
+# Both resolve to <project_root>/data/repos — confirmed consistent.
+_PROJECT_ROOT = Path(__file__).resolve().parents[3]
+_REPO_ROOT = _PROJECT_ROOT / "data" / "repos"
+_VECTOR_INDEX_ROOT = _PROJECT_ROOT / "data" / "vector_index"
 
 
 class QueryRequest(BaseModel):
@@ -28,39 +37,33 @@ class QueryRequest(BaseModel):
 def index_repo(repo_id: str):
     """
     Index a repository for semantic code search.
-    
-    This endpoint:
-    1. Extracts project metadata and README
-    2. Chunks all code files semantically (at function/class boundaries)
-    3. Generates enriched embeddings
-    4. Stores in FAISS vector database
-    
-    Example request:
-    ```json
-    {
-        "repo_id": "my-project",
-        "repo_path": "/path/to/repository"
-    }
-    ```
+
+    The repository must first be uploaded via POST /upload_repo.
+    Steps:
+      1. Extracts project metadata and README
+      2. Chunks all code files semantically (function/class boundaries)
+      3. Generates enriched embeddings
+      4. Stores in FAISS vector database
     """
-    try:
-        _REPO_ROOT = Path(__file__).resolve().parents[3] / "data" / "repos"
-# then use:
-        repo_path = _REPO_ROOT / repo_id
+    repo_path = _REPO_ROOT / repo_id
 
-        if not repo_path.exists():
-            raise HTTPException(
-                status_code=404,
-                detail=f"Repository '{repo_id}' not found in data/repos"
-            )
-
-        result = ingest_repository_from_path(
-            repo_id,
-            str(repo_path)
+    if not repo_path.exists():
+        raise HTTPException(
+            status_code=404,
+            detail={
+                "error": f"Repository '{repo_id}' not found.",
+                "looked_in": str(repo_path),
+                "tip": (
+                    "Make sure you called POST /upload_repo first, and that "
+                    "your Docker volume is mounted so files persist between requests. "
+                    "Check GET /health/storage to verify paths inside the container."
+                ),
+            },
         )
 
+    try:
+        result = ingest_repository_from_path(repo_id, str(repo_path))
         return result
-
     except HTTPException:
         raise
     except Exception as e:
@@ -70,33 +73,7 @@ def index_repo(repo_id: str):
 @router.post("/ask/{repo_id}")
 def ask_about_code(repo_id: str, request: QueryRequest):
     """
-    Ask questions about a repository that has been indexed.
-    
-    This endpoint uses multi-stage semantic retrieval:
-    1. Vector similarity search (semantic meaning)
-    2. Keyword matching for specificity
-    3. Metadata-based ranking
-    4. Context-aware LLM prompting
-    
-    Example requests:
-    
-    ```json
-    {
-        "question": "How does the authentication system work?"
-    }
-    ```
-    
-    ```json
-    {
-        "question": "Show me the API endpoints and their handlers"
-    }
-    ```
-    
-    ```json
-    {
-        "question": "What are the database models and relationships?"
-    }
-    ```
+    Ask questions about an indexed repository using multi-stage semantic retrieval.
     """
     try:
         result = ask_question(repo_id, request.question, request.model)
@@ -109,55 +86,38 @@ def ask_about_code(repo_id: str, request: QueryRequest):
 def list_indexed_repos():
     """List all repositories that have been indexed."""
     from backend.app.services.code_assist.improved_vector_store_service import list_indexed_repos
-    
+
     repos = list_indexed_repos()
-    return {
-        "count": len(repos),
-        "repositories": repos
-    }
+    return {"count": len(repos), "repositories": repos}
 
 
 @router.get("/stats/{repo_id}")
 def get_repo_stats(repo_id: str):
     """Get indexing statistics for a repository."""
     from backend.app.services.code_assist.improved_vector_store_service import get_index_stats
-    
+
     try:
         stats = get_index_stats(repo_id)
         return stats
-    except Exception as e:
-        raise HTTPException(status_code=404, detail=f"No index found for {repo_id}")
-    
+    except Exception:
+        raise HTTPException(status_code=404, detail=f"No index found for '{repo_id}'")
+
 
 @router.get("/projects")
 def list_indexed_projects():
     """
     Return all repositories that already have a vector index.
-    This allows users to directly ask questions without re-indexing.
+    Users can query these directly without re-indexing.
     """
+    if not _VECTOR_INDEX_ROOT.exists():
+        return {"count": 0, "projects": []}
 
     try:
-        vector_index_dir = Path("data/vector_index")
-
-        if not vector_index_dir.exists():
-            return {
-                "count": 0,
-                "projects": []
-            }
-
-        projects = []
-
-        for repo_dir in vector_index_dir.iterdir():
-            if repo_dir.is_dir():
-                projects.append({
-                    "repo_id": repo_dir.name,
-                    "indexed": True
-                })
-
-        return {
-            "count": len(projects),
-            "projects": projects
-        }
-
+        projects = [
+            {"repo_id": d.name, "indexed": True}
+            for d in _VECTOR_INDEX_ROOT.iterdir()
+            if d.is_dir()
+        ]
+        return {"count": len(projects), "projects": projects}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -21,6 +21,10 @@ services:
       - COGNITOFORGE_GITHUB_TOKEN=${COGNITOFORGE_GITHUB_TOKEN}
       - COGNITOFORGE_ALLOWED_ORIGINS=${COGNITOFORGE_ALLOWED_ORIGINS}
     volumes:
+      # Mounts to /app/backend/data — exactly where the code writes:
+      #   repo_fetcher.py  parents[3] from /app/backend/app/services/ → /app/backend/data/repos
+      #   code_assist.py   parents[3] from /app/backend/app/routers/  → /app/backend/data/vector_index
+      #   performance_service.py                                       → /app/backend/data/performance_tests
       - api_data:/app/backend/data
     restart: unless-stopped
     healthcheck:

@@ -67,7 +67,7 @@ const DEFAULTS: Record<
   stress: { vus: 1000, duration: "2m", rampUp: "5s" },
   spike: { vus: 1000, duration: "2m", rampUp: "2s" },
   capacity: { vus: 1000, duration: "30m", rampUp: "1s" },
-  quick: { vus: 100, duration: "30s", rampUp: "5s" },
+  quick: { vus: 5, duration: "2m", rampUp: "5s" },
 };
 
 const TEST_LABELS: Record<string, string> = {
@@ -209,18 +209,35 @@ export default function StartTestPage() {
 
     try {
       let responseData: any;
+      const path = extractPath(config.targetUrl);
 
-      // STEP 1 — start test
       if (config.testType === "quick") {
-        setStatusMsg("Running quick performance test…");
-        const res = await fetch(
-          `${API_BASE}/api/performance/test/quick?target_url=${encodeURIComponent(config.targetUrl)}`,
-        );
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        // ── Quick test: POST /api/performance/test/quick with JSON body ──
+        // The backend defines this as:
+        //   @router.post("/test/quick")
+        //   async def quick_performance_test(target_url: HttpUrl)
+        // FastAPI reads HttpUrl query params from the body when content-type is JSON.
+        // We use the generic /test endpoint to avoid ambiguity.
+        setStatusMsg("Running quick smoke test…");
+        const body = {
+          target_url: config.targetUrl,
+          test_type: "smoke",
+          vus: 5,
+          duration: "2m",
+          endpoints: [{ method: "GET", path }],
+        };
+        const res = await fetch(`${API_BASE}/api/performance/test`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) {
+          const detail = await res.text();
+          throw new Error(`HTTP ${res.status}: ${detail}`);
+        }
         responseData = await res.json();
       } else {
         setStatusMsg(`Starting ${TEST_LABELS[config.testType]}…`);
-        const path = extractPath(config.targetUrl);
         const body = {
           target_url: config.targetUrl,
           test_type: config.testType,
@@ -234,11 +251,13 @@ export default function StartTestPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(body),
         });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) {
+          const detail = await res.text();
+          throw new Error(`HTTP ${res.status}: ${detail}`);
+        }
         responseData = await res.json();
       }
 
-      // STEP 2 — map response directly, no DB round-trip needed
       setStatusMsg("Processing results…");
 
       const pm =
@@ -283,7 +302,6 @@ export default function StartTestPage() {
 
   return (
     <div className="relative min-h-screen overflow-hidden p-10">
-      {/* ── Background (unchanged) ─────────────────────────────────────────── */}
       <div className="absolute inset-0 z-0">
         <FlickeringGrid
           className="w-full h-full"
@@ -295,9 +313,7 @@ export default function StartTestPage() {
         />
       </div>
 
-      {/* ── Page Content ───────────────────────────────────────────────────── */}
       <div className="relative z-10">
-        {/* Brand */}
         <div className="mb-10">
           <Link href="/" className="text-xl font-bold gradient-text">
             CognitoForge
@@ -309,7 +325,6 @@ export default function StartTestPage() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-3xl mx-auto"
         >
-          {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-4">
               Load / <span className="gradient-text">Performance Testing</span>
@@ -380,7 +395,7 @@ export default function StartTestPage() {
               </button>
             </div>
 
-            {/* Advanced config (hidden for quick test) */}
+            {/* Advanced config */}
             {config.testType !== "quick" && (
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
@@ -471,7 +486,6 @@ export default function StartTestPage() {
                     {statusMsg}
                   </span>
                 </div>
-                {/* Progress bar */}
                 <div className="w-full bg-border/40 rounded-full h-1.5 overflow-hidden">
                   <motion.div
                     className="h-full bg-blue-500 rounded-full"
@@ -496,7 +510,6 @@ export default function StartTestPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-6"
               >
-                {/* Success banner */}
                 <div className="flex items-center gap-3 bg-emerald-900/20 border border-emerald-700/40 text-emerald-300 px-5 py-3 rounded-lg text-sm">
                   <CheckCircle2 className="h-5 w-5 flex-shrink-0" />
                   <div>
@@ -510,7 +523,7 @@ export default function StartTestPage() {
                   </div>
                 </div>
 
-                {/* ── Performance Summary ──────────────────────────────────── */}
+                {/* Performance Summary */}
                 <div className="glass p-6 rounded-lg border border-border/40">
                   <SectionHeader
                     icon={TrendingUp}
@@ -557,7 +570,7 @@ export default function StartTestPage() {
                   </div>
                 </div>
 
-                {/* ── Response Times ───────────────────────────────────────── */}
+                {/* Response Times */}
                 <div className="glass p-6 rounded-lg border border-border/40">
                   <SectionHeader icon={Clock} title="Response Times" />
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -599,7 +612,7 @@ export default function StartTestPage() {
                   </div>
                 </div>
 
-                {/* ── Traffic ──────────────────────────────────────────────── */}
+                {/* Traffic */}
                 <div className="glass p-6 rounded-lg border border-border/40">
                   <SectionHeader icon={Users} title="Traffic" />
                   <div className="grid grid-cols-2 gap-3">
@@ -615,7 +628,6 @@ export default function StartTestPage() {
                   </div>
                 </div>
 
-                {/* Run again */}
                 <Button
                   variant="outline"
                   className="w-full"
