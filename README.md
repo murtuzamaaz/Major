@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![CognitoForge Banner](https://img.shields.io/badge/CognitoForge-AI%20Security-blueviolet?style=for-the-badge)
+![ThreatForge Banner](https://img.shields.io/badge/ThreatForge-AI%20Security-blueviolet?style=for-the-badge)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg?style=for-the-badge&logo=python)](https://www.python.org/)
 [![Next.js](https://img.shields.io/badge/Next.js-14-black.svg?style=for-the-badge&logo=next.js)](https://nextjs.org/)
@@ -36,7 +36,7 @@
 
 ## 🌟 Overview
 
-**CognitoForge AI** is a cutting-edge security analysis platform that leverages artificial intelligence to simulate adversarial attacks on code repositories. Built with Google's Gemini AI, it provides comprehensive security insights through automated vulnerability detection, attack vector analysis, and intelligent threat modeling.
+**ThreatForge AI** is a cutting-edge security analysis platform that leverages artificial intelligence to simulate adversarial attacks on code repositories. Built with Google's Gemini AI, it provides comprehensive security insights through automated vulnerability detection, attack vector analysis, and intelligent threat modeling.
 
 ### Why CognitoForge?
 
@@ -46,27 +46,6 @@
 - ☁️ **Cloud Compute**: DigitalOcean Gradient support for scalable AI workloads
 - 🔐 **Enterprise Auth**: Secure authentication via Auth0
 - 📈 **Real-Time Dashboard**: Live analytics and visualization of security metrics
-
----
----
-
-## 👨‍💻 Team
-
-| Name                          | Roll Number   |
-|-------------------------------|---------------|
-| Mohammed Murtuzauddin Maaz    | 160922748011  |
-| Mohammed Abubaker             | 160922748044  |
-| Anas Athar Mohiuddin          | 160922748024  |
-
-
-**Project Guide:**  
-Mr.Srikanth Reddy Madi, Assistant Professor  
-
-**Co-Guide / HoD:**  
-Dr. Abdul Rasool MD, Associate Professor & Head of Department, CSE (AIML)  
-
-**Institution:**  
-Lords Institute of Engineering and Technology, Hyderabad  
 
 ---
 
@@ -94,7 +73,7 @@ Lords Institute of Engineering and Technology, Hyderabad
 - Repository-level risk scoring
 
 #### ☁️ **Cloud Infrastructure**
-- **Snowflake Integration**: Data warehousing for simulation runs, affected files, and AI insights
+- **Supabase**: Data warehousing for simulation runs, affected files, and AI insights
 - **Gradient Compute**: Task execution environment with metadata tracking
 - **Scalable Architecture**: Horizontal scaling for high-volume analysis
 
