@@ -2,15 +2,14 @@
 
 <div align="center">
 
-![ThreatForge Banner](https://img.shields.io/badge/ThreatForge-AI%20Security-blueviolet?style=for-the-badge)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg?style=for-the-badge&logo=python)](https://www.python.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-14-black.svg?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688.svg?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+![ThreatForge AI](https://img.shields.io/badge/ThreatForge-AI%20DevSecOps-blueviolet?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-009688?style=for-the-badge&logo=fastapi)
+![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge&logo=docker)
 
-**AI-Powered Security Analysis & Attack Simulation Platform**
-
-[Features](#-features) • [Quick Start](#-quick-start) • [Architecture](#-architecture) • [Documentation](#-documentation) • [Contributing](#-contributing)
+**AI-Powered DevSecOps Platform for Security Analysis, Intrusion Testing, Performance Engineering & Intelligent Remediation**
 
 </div>
 
@@ -19,591 +18,1131 @@
 ## 📋 Table of Contents
 
 - [Overview](#-overview)
-- [Key Features](#-features)
+- [Why ThreatForge AI](#-why-threatforge-ai)
+- [Core Services](#-core-services)
 - [Architecture](#-architecture)
+- [End-to-End Data Flow](#-end-to-end-data-flow)
 - [Technology Stack](#-technology-stack)
+- [Database Architecture](#-database-architecture)
+- [Project Structure](#-project-structure)
 - [Getting Started](#-getting-started)
 - [Configuration](#-configuration)
-- [Usage](#-usage)
+- [Using ThreatForge AI](#-using-threatforge-ai)
+- [Reporting](#-reporting)
+- [Security & Responsible Testing](#-security--responsible-testing)
+- [Deployment & CI/CD](#-deployment--cicd)
 - [API Documentation](#-api-documentation)
-- [Integrations](#-integrations)
-- [Security](#-security)
+- [Key Strengths](#-key-strengths)
 - [Contributing](#-contributing)
 - [License](#-license)
-- [Support](#-support)
 
 ---
 
 ## 🌟 Overview
 
-**ThreatForge AI** is a cutting-edge security analysis platform that leverages artificial intelligence to simulate adversarial attacks on code repositories. Built with Google's Gemini AI, it provides comprehensive security insights through automated vulnerability detection, attack vector analysis, and intelligent threat modeling.
+**ThreatForge AI** is a full-stack DevSecOps platform that brings security analysis, dynamic intrusion simulation, performance testing, and AI-assisted remediation into a single workflow.
 
-### Why CognitoForge?
+The platform is designed to help developers identify security weaknesses and performance bottlenecks, understand their impact, and receive actionable remediation guidance before applications reach production.
 
-- 🤖 **AI-Driven Analysis**: Powered by Google Gemini 2.0 Flash for intelligent security assessments
-- 🎯 **Attack Simulation**: Realistic attack scenario generation based on MITRE ATT&CK framework
-- 📊 **Data Warehouse Integration**: Snowflake integration for analytics and historical tracking
-- ☁️ **Cloud Compute**: DigitalOcean Gradient support for scalable AI workloads
-- 🔐 **Enterprise Auth**: Secure authentication via Auth0
-- 📈 **Real-Time Dashboard**: Live analytics and visualization of security metrics
+ThreatForge combines:
 
----
+- 🔍 **SAST** — Static code-level vulnerability detection
+- 🎯 **DAST** — Controlled dynamic intrusion testing against live systems
+- ⚡ **Performance Engineering** — Load, stress and spike testing using k6
+- 🤖 **AI Code Assistant** — Context-aware code analysis and remediation using Gemini and Ollama
+- 📊 **Security Dashboard** — Unified visibility into security, performance and testing results
+- 📄 **Report Generation** — Structured reports for findings, metrics and recommendations
 
-## ✨ Features
-
-### Core Capabilities
-
-#### 🔍 **Intelligent Repository Analysis**
-- Automated scanning of GitHub repositories
-- Smart file prioritization based on risk indicators
-- Language-agnostic vulnerability detection
-- CI/CD pipeline analysis
-
-#### 🎯 **AI-Powered Attack Planning**
-- Contextual attack scenario generation using Gemini AI
-- MITRE ATT&CK technique mapping
-- Severity-based vulnerability classification
-- Deterministic fallback for offline operation
-
-#### 📊 **Advanced Analytics Dashboard**
-- Real-time security metrics and KPIs
-- Historical trend analysis via Snowflake
-- Vulnerability distribution by severity
-- AI vs. rule-based scan tracking
-- Repository-level risk scoring
-
-#### ☁️ **Cloud Infrastructure**
-- **Supabase**: Data warehousing for simulation runs, affected files, and AI insights
-- **Gradient Compute**: Task execution environment with metadata tracking
-- **Scalable Architecture**: Horizontal scaling for high-volume analysis
-
-#### 🔐 **Security & Compliance**
-- Auth0 authentication and authorization
-- Secure credential management
-- Input sanitization and validation
-- Audit logging for all operations
-
-#### 📝 **Comprehensive Reporting**
-- Detailed vulnerability reports with remediation guidance
-- PDF export capabilities
-- Gemini-generated security intelligence summaries
-- Attack vector visualization
+The backend is built around **FastAPI**, the frontend uses **Next.js/TypeScript**, persistent application data is stored in **Supabase PostgreSQL**, and semantic code retrieval is powered by **FAISS**.
 
 ---
 
-## 🏗️ Architecture
+## 🎯 Why ThreatForge AI
 
+ThreatForge is designed around a simple idea:
+
+> **Security testing should not be separated from performance analysis and remediation.**
+
+Instead of using isolated tools for different stages of application security, ThreatForge provides one workflow:
+
+**Repository / URL → Analysis → Findings → AI Reasoning → Remediation → Storage → Dashboard → Report**
+
+### Key Benefits
+
+- 🛡️ Detect vulnerabilities before deployment
+- 🔎 Analyze complete GitHub repositories
+- 🌐 Test real applications through controlled dynamic analysis
+- ⚡ Measure scalability and response-time behavior
+- 🤖 Understand vulnerabilities using AI
+- 🧠 Retrieve relevant code through semantic indexing
+- 🗃️ Persist scan history and analytics in PostgreSQL
+- 📊 Monitor all results from one dashboard
+- 📄 Generate reports for documentation, audits and team sharing
+
+---
+
+# ✨ Core Services
+
+ThreatForge AI is organized around **six major functional services**.
+
+## 1. 🔍 Vulnerability Scanner — SAST
+
+The Vulnerability Scanner performs static analysis on GitHub repositories.
+
+### Workflow
+
+1. Accept a repository URL
+2. Download the repository as a ZIP
+3. Extract and parse the codebase
+4. Analyze source files using pattern-based and rule-based checks
+5. Identify vulnerable files and security findings
+6. Store findings and affected-file information in Supabase
+
+### Detects
+
+- SQL Injection
+- Cross-Site Scripting (XSS)
+- Hardcoded API keys and credentials
+- Exposed secrets and environment configuration
+- Insecure coding practices
+- Security misconfigurations
+- Outdated or expired dependencies
+
+### Output
+
+Each finding can contain:
+
+- Severity
+- CVSS information
+- CVE/CWE references where available
+- Description
+- Evidence
+- Recommendation
+- Affected URL/file information
+
+ThreatForge therefore acts as a **custom lightweight SAST engine** focused on actionable security findings.
+
+---
+
+## 2. 🎯 Intrusion Tester — DAST
+
+The Intrusion Tester performs controlled security testing against a live application.
+
+**User consent is required before an intrusion test is executed.**
+
+### Areas Tested
+
+- CORS misconfigurations
+- Open ports and exposed services
+- Weak security headers
+- SSL/TLS configuration weaknesses
+- SQL Injection
+- XSS
+- Payment gateway weaknesses
+- Sensitive-data exposure
+- Other controlled attack-surface checks
+
+### Objective
+
+The service attempts to identify:
+
+- Potential entry points
+- Exploitable weaknesses
+- Security misconfigurations
+- Attack-surface exposure
+
+Results are stored as intrusion simulation runs and surfaced through the dashboard and reporting workflow.
+
+---
+
+## 3. ⚡ Load Tester — Performance Engineering
+
+The Performance Testing service evaluates application scalability and reliability under controlled traffic.
+
+### Tools
+
+- **k6** — Load generation and performance testing
+- **httpx** — HTTP request handling
+
+### Test Types
+
+- Load testing
+- Stress testing
+- Spike testing
+
+### Metrics
+
+- Maximum concurrent users
+- Average/maximum virtual users
+- Total requests
+- Successful requests
+- Failed requests
+- Average response time
+- Minimum response time
+- Maximum response time
+- p50 latency
+- p95 latency
+- p99 latency
+- Throughput
+- Failure rate
+
+Performance results are persisted in the `performance_runs` table for historical analysis and reporting.
+
+---
+
+## 4. 🤖 AI Code Assistant — Remediation Engine
+
+The AI Code Assistant provides context-aware analysis of the repository and helps developers understand and fix issues.
+
+### Code Intelligence Pipeline
+
+```text
+GitHub Repository
+       │
+       ▼
+Repository Download
+       │
+       ▼
+Code Parsing
+       │
+       ▼
+Semantic Code Indexing
+       │
+       ▼
+FAISS Vector Search
+       │
+       ▼
+Relevant Code Context
+       │
+       ├──────────────► Google Gemini
+       │
+       └──────────────► Ollama Local Inference
+                              │
+                              ▼
+                    Explanation / Fix / Guidance
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                    Frontend Layer (Next.js 14)                      │
-│  ┌────────────┐  ┌─────────────┐  ┌──────────────────────────────┐ │
-│  │ Dashboard  │  │  Demo/Report│  │  Auth (Auth0)                │ │
-│  │ Component  │  │   Pages     │  │                              │ │
-│  └─────┬──────┘  └──────┬──────┘  └──────────────────────────────┘ │
-│        │                │                                           │
-│        └────────────────┴────────────┐                             │
-│                                      │                             │
-│                   ┌──────────────────▼──────────────────┐          │
-│                   │   API Service (TypeScript)          │          │
-│                   │   - Type-safe requests              │          │
-│                   │   - Error handling                  │          │
-│                   │   - Auth token management           │          │
-│                   └──────────────────┬──────────────────┘          │
-└──────────────────────────────────────┼──────────────────────────────┘
-                                       │
-                          HTTP/REST (Port 8000)
-                                       │
-┌──────────────────────────────────────▼──────────────────────────────┐
-│                    Backend Layer (FastAPI)                          │
-│  ┌────────────────────────────────────────────────────────────────┐ │
-│  │              Operations Router                                 │ │
-│  │  - POST /upload_repo                                          │ │
-│  │  - POST /simulate_attack                                      │ │
-│  │  - GET  /reports/{repo_id}/latest                            │ │
-│  │  - GET  /analytics/summary                                    │ │
-│  │  - GET  /api/gradient/status                                  │ │
-│  └────────────────────┬───────────────────────────────────────────┘ │
-│                       │                                            │
-│       ┌───────────────┴───────────────┐                           │
-│       │                               │                           │
-│  ┌────▼─────────┐            ┌────────▼──────────┐               │
-│  │   Gemini AI  │            │  Gradient Service │               │
-│  │   Service    │            │  (Task Execution) │               │
-│  │              │            └───────────────────┘               │
-│  │ - Attack     │                                                │
-│  │   Planning   │            ┌───────────────────┐               │
-│  │ - Insights   │            │   Snowflake       │               │
-│  │ - Analysis   │            │   Integration     │               │
-│  └──────────────┘            │                   │               │
-│                              │ - store_runs()    │               │
-│                              │ - fetch_analytics()│               │
-│                              └─────────┬─────────┘               │
-└────────────────────────────────────────┼──────────────────────────┘
-                                         │
-                          ┌──────────────▼───────────────┐
-                          │    Snowflake Warehouse       │
-                          │  - simulation_runs           │
-                          │  - affected_files            │
-                          │  - ai_insights               │
-                          └──────────────────────────────┘
+
+### Capabilities
+
+- Explain vulnerabilities in plain language
+- Identify affected files
+- Understand project structure
+- Retrieve relevant code semantically
+- Suggest remediation strategies
+- Provide context-aware code assistance
+- Reduce repeated AI computation by storing generated insights
+
+The system uses **FAISS** as the vector database/index for semantic retrieval and supports both **Google Gemini** and **Ollama** for AI reasoning.
+
+---
+
+## 5. 📊 Security Dashboard
+
+The dashboard acts as the central control center for ThreatForge.
+
+### Provides Visibility Into
+
+- Vulnerability findings
+- Severity distribution
+- Performance metrics
+- Intrusion-test results
+- Scan history
+- Scan status
+- AI-generated insights
+- Affected files
+- Recent analysis activity
+
+The frontend communicates with the FastAPI backend through REST APIs and fetches user-specific analysis data.
+
+---
+
+## 6. 📄 Downloadable Reports
+
+ThreatForge provides structured reports from completed analyses.
+
+### Reports Can Include
+
+- Vulnerability findings
+- Severity information
+- CVE/CWE references
+- Evidence and affected files
+- Performance statistics
+- Intrusion-test results
+- AI-generated recommendations
+- Scan metadata
+
+Reports can be used for:
+
+- Security documentation
+- Internal reviews
+- Audits
+- Team communication
+- Project records
+
+---
+
+# 🏗️ Architecture
+
+The current system follows a layered architecture consisting of the **Frontend & Authentication Layer**, **FastAPI Backend Service Layer**, and **Supabase Data & Persistence Layer**. The backend contains the core SAST, DAST, performance-testing and AI-assisted analysis services, while Gemini, Ollama and FAISS provide the AI and semantic-analysis capabilities.
+
+### System Architecture Diagram
+
+![ThreatForge AI System Architecture](docs/system-architecture.jpg)
+
+> **Architecture diagram:** The diagram above represents the current service boundaries, request flow, AI analysis components and Supabase persistence model.
+
+### Architectural Layers
+
+| Layer | Responsibility | Main Technologies |
+|---|---|---|
+| Frontend & Authentication | Dashboard, reports, authentication and user interaction | Next.js, TypeScript, Auth0 |
+| API Gateway | Request routing, validation and service orchestration | FastAPI, Pydantic |
+| Core Analysis Services | SAST, DAST and performance testing | Python, k6, httpx |
+| AI & Analysis Engine | AI reasoning, local inference and semantic retrieval | Gemini, Ollama, FAISS |
+| Data & Persistence | Scan workflow, findings, metrics, simulations and AI insights | Supabase, PostgreSQL |
+| Deployment | Containerization, CI/CD and hosting | Docker, Jenkins, AWS EC2, Vercel, Nginx |
+
+---
+
+# 🔄 End-to-End Data Flow
+
+```text
+                    ┌─────────────────────┐
+                    │       User          │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Next.js + Auth0     │
+                    └──────────┬──────────┘
+                               │
+                    Authenticated Request
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   FastAPI Gateway   │
+                    └──────────┬──────────┘
+                               │
+             ┌─────────────────┼──────────────────┐
+             │                 │                  │
+             ▼                 ▼                  ▼
+        ┌─────────┐       ┌─────────┐        ┌─────────┐
+        │  SAST   │       │  DAST   │        │   k6    │
+        │ Scanner │       │ Tester  │        │  Load   │
+        └────┬────┘       └────┬────┘        └────┬────┘
+             │                 │                  │
+             └─────────────────┼──────────────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ AI Analysis Engine  │
+                    │ Gemini / Ollama     │
+                    │ FAISS Retrieval     │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ Supabase PostgreSQL │
+                    └──────────┬──────────┘
+                               │
+                ┌──────────────┴──────────────┐
+                ▼                             ▼
+        ┌──────────────┐              ┌──────────────┐
+        │   Dashboard  │              │    Reports   │
+        └──────────────┘              └──────────────┘
 ```
 
----
+### Flow Summary
 
-## 🛠️ Technology Stack
-
-### Frontend
-- **Framework**: Next.js 14 (React 18)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **UI Components**: shadcn/ui
-- **Animations**: Framer Motion
-- **Icons**: Lucide React
-- **Authentication**: Auth0 React SDK
-
-### Backend
-- **Framework**: FastAPI
-- **Language**: Python 3.11+
-- **AI/ML**: Google Generative AI (Gemini)
-- **Data Validation**: Pydantic
-- **Async Runtime**: Uvicorn
-- **API Documentation**: OpenAPI/Swagger
-
-### Data & Infrastructure
-- **Data Warehouse**: Snowflake
-- **Cloud Compute**: DigitalOcean Gradient (simulated)
-- **Repository Fetcher**: GitHub API
-- **Storage**: Local JSON (with Snowflake sync)
-
-### DevOps & Tools
-- **Version Control**: Git
-- **Package Manager**: npm (frontend), pip (backend)
-- **Environment**: dotenv for configuration
-- **Testing**: FastAPI TestClient, pytest
+1. User authenticates through Auth0.
+2. User submits a repository or live application URL.
+3. FastAPI receives and validates the request.
+4. A scan/run record is created.
+5. The selected analysis service executes.
+6. Security findings, performance metrics or intrusion results are generated.
+7. Relevant code can be indexed and retrieved through FAISS.
+8. Gemini and/or Ollama provides AI reasoning and remediation guidance.
+9. Results are persisted in Supabase PostgreSQL.
+10. The dashboard retrieves the linked results.
+11. Reports can be generated from the stored analysis data.
 
 ---
 
-## 🚀 Getting Started
+# 🛠️ Technology Stack
 
-### Prerequisites
+## Frontend
 
-- **Node.js** 18+ and npm
-- **Python** 3.11+
+| Technology | Purpose |
+|---|---|
+| Next.js | Web application framework |
+| React | UI components |
+| TypeScript | Type-safe frontend development |
+| Auth0 | Authentication and session management |
+| Fetch / Axios | REST API communication |
+
+## Backend
+
+| Technology | Purpose |
+|---|---|
+| FastAPI | REST API and service layer |
+| Python 3.11+ | Backend implementation |
+| Pydantic | Request/data validation |
+| Uvicorn | ASGI server |
+| httpx | HTTP requests and testing |
+| requests | External HTTP communication |
+
+## Security & Testing
+
+| Technology | Purpose |
+|---|---|
+| Custom SAST engine | Static vulnerability detection |
+| DAST modules | Controlled live-system testing |
+| k6 | Load, stress and spike testing |
+| GitHub | Repository source |
+| CVE/CWE references | Security finding classification |
+
+## AI & Retrieval
+
+| Technology | Purpose |
+|---|---|
+| Google Gemini API | AI reasoning and remediation |
+| Ollama | Local LLM inference |
+| FAISS | Vector indexing and semantic retrieval |
+| NumPy | Vector/data processing |
+
+## Data & Infrastructure
+
+| Technology | Purpose |
+|---|---|
+| Supabase | Backend database platform |
+| PostgreSQL | Persistent relational storage |
+| Docker | Containerization |
+| Jenkins | CI/CD automation |
+| AWS EC2 | Backend deployment |
+| Vercel | Frontend deployment |
+| Nginx | Reverse proxy / HTTPS routing |
+
+---
+
+# 🗄️ Database Architecture
+
+ThreatForge uses **Supabase PostgreSQL** as its unified persistence layer.
+
+## 1. `vulnscan_scans`
+
+Root table for scan/workflow requests.
+
+Stores information such as:
+
+- Target repository or URL
+- Scan type
+- Requested modules
+- Status
+- Consent flag
+- Timestamps
+- Run metadata
+
+---
+
+## 2. `vulnscan_findings`
+
+Stores detected security vulnerabilities.
+
+Typical information includes:
+
+- Severity
+- CVSS score
+- CVE/CWE references
+- Description
+- Evidence
+- Recommendation
+- Affected URL
+
+---
+
+## 3. `affected_files`
+
+Maps security findings to affected repository files.
+
+Stores:
+
+- File path
+- Severity
+- Repository/run reference
+- Finding relationship
+
+This enables precise debugging and remediation.
+
+---
+
+## 4. `performance_runs`
+
+Stores performance-testing results.
+
+Includes:
+
+- Virtual-user statistics
+- Request counts
+- Success/failure counts
+- Response-time statistics
+- p50/p95/p99 percentiles
+- Throughput
+- Failure rates
+- Test metadata
+
+---
+
+## 5. `simulation_runs`
+
+Stores intrusion-testing summaries and execution metadata.
+
+Includes:
+
+- Run metadata
+- Overall severity
+- Dynamic testing results
+
+---
+
+## 6. `ai_insights`
+
+Stores AI-generated analysis.
+
+Includes:
+
+- Vulnerability explanations
+- Remediation recommendations
+- AI-generated insights
+- Related analysis metadata
+
+Persisting AI results avoids unnecessary recomputation.
+
+---
+
+# 📁 Project Structure
+
+A representative high-level structure is:
+
+```text
+ThreatForge/
+│
+├── frontend/
+│   ├── app/
+│   ├── components/
+│   ├── services/
+│   ├── public/
+│   ├── package.json
+│   └── ...
+│
+├── backend/
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── models/
+│   │   ├── schemas/
+│   │   ├── data/
+│   │   └── ...
+│   ├── requirements.txt
+│   └── ...
+│
+├── docs/
+│   └── system-architecture.png
+│
+├── Dockerfile
+├── docker-compose.yml
+├── Jenkinsfile
+└── README.md
+```
+
+> The exact directory structure may vary depending on the current repository implementation. The architecture above describes the logical organization of the platform.
+
+---
+
+# 🚀 Getting Started
+
+## Prerequisites
+
+Install:
+
+- **Python 3.11+**
+- **Node.js 18+**
+- **npm**
 - **Git**
-- **Google Gemini API Key** ([Get one here](https://ai.google.dev/))
-- **Auth0 Account** ([Sign up here](https://auth0.com/))
-- **(Optional)** Snowflake Account for analytics
+- **Docker** (recommended for containerized deployment)
+- **k6** (required for performance testing)
+- **Ollama** (optional if local inference is enabled)
 
-### Installation
+You will also need credentials/configuration for:
 
-#### 1. Clone the Repository
+- Auth0
+- Supabase
+- Google Gemini API
+- GitHub API/token if required by repository access
+
+---
+
+## 1. Clone the Repository
 
 ```bash
-git clone https://github.com/n4bi10p/CognitoForge-Ai.git
-cd CognitoForge-Ai
+git clone https://github.com/murtuzamaaz/Major.git
+cd Major
 ```
 
-#### 2. Backend Setup
+---
+
+## 2. Backend Setup
 
 ```bash
-# Navigate to backend directory
 cd backend
 
-# Create virtual environment
 python -m venv venv
+```
 
-# Activate virtual environment
-# On Windows:
+### Windows
+
+```bash
 venv\Scripts\activate
-# On macOS/Linux:
+```
+
+### macOS/Linux
+
+```bash
 source venv/bin/activate
+```
 
-# Install dependencies
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
+```
 
-# Create .env file
+Create the backend environment file:
+
+```bash
 cp .env.example .env
-
-# Edit .env with your credentials
-# Required: COGNITOFORGE_GEMINI_API_KEY
-# Optional: Snowflake credentials
 ```
 
-#### 3. Frontend Setup
+On Windows PowerShell, if needed:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+---
+
+## 3. Frontend Setup
+
+From the project root:
 
 ```bash
-# Navigate to frontend directory
 cd frontend
-
-# Install dependencies
 npm install
+```
 
-# Create .env.local file
+Create the local environment file:
+
+```bash
 cp .env.local.example .env.local
-
-# Edit .env.local with your Auth0 credentials
 ```
 
-#### 4. Start the Application
+---
 
-**Terminal 1 - Backend:**
+## 4. Start the Backend
+
+From the backend directory:
+
 ```bash
-cd backend
-python -m uvicorn backend.app.main:app --host 127.0.0.1 --port 8000 --reload
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
 
-**Terminal 2 - Frontend:**
+If the repository's current module path differs, use the module path defined by the backend entry point.
+
+Backend:
+
+```text
+http://127.0.0.1:8000
+```
+
+Swagger/OpenAPI:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+---
+
+## 5. Start the Frontend
+
+From the frontend directory:
+
 ```bash
-cd frontend
 npm run dev
 ```
 
-**Access the Application:**
-- Frontend: http://localhost:3000
-- Backend API: http://127.0.0.1:8000
-- API Docs: http://127.0.0.1:8000/docs
+Frontend:
+
+```text
+http://localhost:3000
+```
 
 ---
 
-## ⚙️ Configuration
+# ⚙️ Configuration
 
-### Backend Environment Variables
+## Environment Configuration
 
-Create a `.env` file in the `backend/` directory:
+The current environment configuration uses the following variables for the frontend, Auth0 authentication, backend communication, API access, database connectivity and security.
 
-```bash
-# Required: Gemini AI
-COGNITOFORGE_GEMINI_API_KEY=your_gemini_api_key_here
-COGNITOFORGE_USE_GEMINI=true
-COGNITOFORGE_GEMINI_MODEL=gemini-2.0-flash-exp
+> **Important:** Keep secrets and credentials out of Git. Use `.env.local` / `.env` files locally and configure the same variables through the deployment platform for production.
 
-# Optional: GitHub API (for higher rate limits)
-COGNITOFORGE_GITHUB_TOKEN=ghp_your_github_token
+```env
+# ThreatForge AI Environment Configuration
 
-# Optional: Snowflake Data Warehouse
-COGNITOFORGE_SNOWFLAKE_ACCOUNT=your_account.region
-COGNITOFORGE_SNOWFLAKE_USER=your_username
-COGNITOFORGE_SNOWFLAKE_PASSWORD=your_password
-COGNITOFORGE_SNOWFLAKE_WAREHOUSE=COMPUTE_WH
-COGNITOFORGE_SNOWFLAKE_DATABASE=COGNITOFORGE_DB
-COGNITOFORGE_SNOWFLAKE_SCHEMA=PUBLIC
-
-# Optional: Gradient Compute
-USE_GRADIENT_MOCK=true  # Set to false for production
-```
-
-### Frontend Environment Variables
-
-Create a `.env.local` file in the `frontend/` directory:
-
-```bash
-# Backend API
+# Backend API Configuration (Frontend)
 NEXT_PUBLIC_BACKEND_URL=http://127.0.0.1:8000
 
 # Auth0 Configuration
-AUTH0_SECRET=use_openssl_rand_hex_32_to_generate
-AUTH0_BASE_URL=http://localhost:3000
-AUTH0_ISSUER_BASE_URL=https://your-domain.auth0.com
-AUTH0_CLIENT_ID=your_client_id
-AUTH0_CLIENT_SECRET=your_client_secret
-AUTH0_SCOPE=openid profile email
+AUTH0_DOMAIN=
+AUTH0_CLIENT_ID=
+AUTH0_CLIENT_SECRET=
+AUTH0_AUDIENCE=
+
+# Frontend URLs
+NEXT_PUBLIC_AUTH0_DOMAIN=
+NEXT_PUBLIC_AUTH0_CLIENT_ID=
+NEXT_PUBLIC_AUTH0_AUDIENCE=
+NEXT_PUBLIC_BASE_URL=
+
+# Backend Configuration (Server-side)
+BACKEND_URL=
+JWT_SECRET=
+
+# API Keys
+GEMINI_API_KEY=
+
+# Database (if using)
+DATABASE_URL=your-database-url
+
+# Security
+SESSION_SECRET=
+ENCRYPTION_KEY=
+```
+
+### Configuration Groups
+
+| Variable | Purpose |
+|---|---|
+| `NEXT_PUBLIC_BACKEND_URL` | Backend API URL used by the frontend |
+| `AUTH0_DOMAIN` | Auth0 domain |
+| `AUTH0_CLIENT_ID` | Auth0 application client ID |
+| `AUTH0_CLIENT_SECRET` | Auth0 application client secret |
+| `AUTH0_AUDIENCE` | Auth0 API audience |
+| `NEXT_PUBLIC_AUTH0_DOMAIN` | Auth0 domain exposed to the frontend |
+| `NEXT_PUBLIC_AUTH0_CLIENT_ID` | Auth0 client ID exposed to the frontend |
+| `NEXT_PUBLIC_AUTH0_AUDIENCE` | Auth0 audience exposed to the frontend |
+| `NEXT_PUBLIC_BASE_URL` | Frontend base URL |
+| `BACKEND_URL` | Server-side backend URL |
+| `JWT_SECRET` | Server-side JWT signing/validation secret |
+| `GEMINI_API_KEY` | Google Gemini API credential |
+| `DATABASE_URL` | Database connection URL |
+| `SESSION_SECRET` | Session security secret |
+| `ENCRYPTION_KEY` | Application encryption key |
+
+### Local Setup
+
+For the frontend, create the appropriate environment file in the frontend project and populate the required Auth0 and backend URL values.
+
+For server-side configuration, populate the backend URL, JWT/session/encryption secrets, Gemini API key and database URL as required by the deployment.
+
+Do not commit populated environment files.
+
+### Security
+
+Never commit:
+
+- API keys
+- Auth0 client secrets
+- JWT secrets
+- Session secrets
+- Encryption keys
+- Database credentials
+- Populated `.env` or `.env.local` files
+
+Add environment files to `.gitignore`.
+
+---
+
+# 📖 Using ThreatForge AI
+
+## 🔍 Run Vulnerability Analysis
+
+1. Sign in through Auth0.
+2. Open the security dashboard.
+3. Provide a GitHub repository URL.
+4. Select the required analysis.
+5. Start the scan.
+6. Wait for the scan to complete.
+7. Review vulnerabilities and affected files.
+8. Open AI assistance for explanations/remediation.
+9. Generate a report if required.
+
+---
+
+## ⚡ Run Performance Testing
+
+1. Provide the target application URL.
+2. Configure the required performance parameters.
+3. Select the test type.
+4. Start the k6 test.
+5. Review:
+   - Request counts
+   - Failure rates
+   - Throughput
+   - Average latency
+   - p50
+   - p95
+   - p99
+6. Review the stored run in the dashboard.
+
+Only run performance tests against systems you own or have explicit authorization to test.
+
+---
+
+## 🎯 Run Intrusion Testing
+
+1. Provide the target live URL.
+2. Review the testing scope.
+3. Provide the required consent.
+4. Start the controlled DAST workflow.
+5. Review discovered weaknesses.
+6. Inspect severity and affected areas.
+7. Use AI assistance where appropriate.
+8. Generate a report.
+
+Only perform intrusion testing against systems where you have explicit authorization.
+
+---
+
+## 🤖 Use the AI Code Assistant
+
+The AI assistant can be used to:
+
+- Ask questions about the repository
+- Explain detected vulnerabilities
+- Identify affected files
+- Understand project structure
+- Retrieve relevant code context
+- Suggest remediation approaches
+
+The repository is semantically indexed so that AI responses can use relevant code rather than relying only on a generic prompt.
+
+---
+
+# 🖥️ Running Application Screenshots
+
+Use this section to showcase screenshots of the **running ThreatForge AI application**.
+
+Add screenshots to a folder such as `docs/screenshots/` and reference them below.
+
+
+
+<img width="1919" height="863" alt="main-threatforge" src="https://github.com/user-attachments/assets/e9b98613-55aa-4fe9-a47e-28413eb20823" />
+<img width="1600" height="787" alt="threatforge3" src="https://github.com/user-attachments/assets/cf2fb19c-5e15-4d4e-96ae-305266e99c7e" />
+<img width="1599" height="899" alt="threatforge" src="https://github.com/user-attachments/assets/56af27c2-c61a-4dda-ad94-42a7680ef08f" />
+<img width="1599" height="899" alt="threatforge1" src="https://github.com/user-attachments/assets/c3bec0f1-1902-4ec3-acb0-92439db3bdc2" />
+<img width="1600" height="763" alt="threatforge4" src="https://github.com/user-attachments/assets/f83832c5-3378-49cf-b205-b1359dacdba4" />
+<img width="1599" height="899" alt="threatforge8" src="https://github.com/user-attachments/assets/58693024-2fea-4ca4-9cb2-e33fd49e3e1c" />
+<img width="1600" height="735" alt="threatforge7" src="https://github.com/user-attachments/assets/49df8e5b-d6a1-4f55-9a0f-ec902a0e3115" />
+<img width="1600" height="787" alt="threatforge3" src="https://github.com/user-attachments/assets/4c3415b5-58ba-4519-b5ee-aafeb178f402" />
+
+
+
+---
+
+# 📄 Reporting
+<img width="1600" height="787" alt="threatforge3" src="https://github.com/user-attachments/assets/10d66178-8eda-4e29-abd7-b05f073278d5" />
+
+ThreatForge's reporting workflow combines stored results from multiple services.
+
+A report can contain:
+
+```text
+Scan Metadata
+      │
+      ├── Security Findings
+      │     ├── Severity
+      │     ├── CVE/CWE
+      │     ├── Evidence
+      │     └── Recommendations
+      │
+      ├── Affected Files
+      │
+      ├── Intrusion Test Results
+      │
+      ├── Performance Metrics
+      │     ├── Requests
+      │     ├── Throughput
+      │     ├── Failure Rate
+      │     └── p50 / p95 / p99
+      │
+      └── AI Insights
+            ├── Explanation
+            └── Remediation
+```
+
+Reports are intended to make technical findings easier to document, review and share.
+
+---
+
+# 🔒 Security & Responsible Testing
+
+ThreatForge is intended for **authorized security and performance testing only**.
+
+### Security Practices
+
+- Authenticated access through Auth0
+- Environment variables for secrets
+- Input validation through Pydantic
+- Parameterized PostgreSQL queries
+- CORS configuration
+- User-based data access
+- Consent requirement for intrusion testing
+- Controlled execution of dynamic tests
+
+### Responsible Use
+
+Do not use ThreatForge to test:
+
+- Systems you do not own
+- Applications without explicit authorization
+- Third-party infrastructure without permission
+- Payment systems or production services outside an approved testing scope
+
+Always define a safe testing scope before running DAST or performance workloads.
+
+---
+
+# 🚢 Deployment & CI/CD
+
+ThreatForge is designed for containerized deployment.
+
+## Deployment Architecture
+
+```text
+                    Git Repository
+                          │
+                          ▼
+                     Jenkins CI/CD
+                          │
+                    Build & Test
+                          │
+                          ▼
+                       Docker
+                          │
+             ┌────────────┴────────────┐
+             ▼                         ▼
+       Frontend Build              Backend Build
+             │                         │
+             ▼                         ▼
+          Vercel                    AWS EC2
+                                       │
+                                     Nginx
+                                       │
+                                  HTTPS / Domain
+```
+
+### Frontend
+
+The Next.js frontend can be deployed through **Vercel**.
+
+### Backend
+
+The FastAPI backend can be containerized using **Docker** and deployed to **AWS EC2**.
+
+### CI/CD
+
+**Jenkins** automates the backend build/deployment workflow.
+
+Typical pipeline:
+
+```text
+Code Push
+   │
+   ▼
+Jenkins
+   │
+   ├── Checkout
+   ├── Build
+   ├── Dependency Install
+   ├── Tests
+   ├── Docker Build
+   └── Deployment
+          │
+          ▼
+       AWS EC2
 ```
 
 ---
 
-## 📖 Usage
+# 📚 API Documentation
 
-### Running a Security Analysis
+FastAPI automatically exposes interactive API documentation.
 
-1. **Navigate to Demo Page**: http://localhost:3000/demo
+Once the backend is running:
 
-2. **Enter Repository URL**:
-   ```
-   https://github.com/username/repository
-   ```
+```text
+http://127.0.0.1:8000/docs
+```
 
-3. **Start Analysis**: Click "Start Analysis"
+and:
 
-4. **View Results**:
-   - Attack vectors discovered
-   - Severity classifications
-   - AI-generated insights (Gemini metadata)
-   - Gradient execution metrics
-   - Affected files list
+```text
+http://127.0.0.1:8000/redoc
+```
 
-### Viewing Analytics Dashboard
+The exact endpoint list is defined by the currently deployed backend routes.
 
-1. **Navigate to Dashboard**: http://localhost:3000/dashboard
+Core API responsibilities include:
 
-2. **Metrics Available**:
-   - Total repositories analyzed
-   - Total security scans
-   - Vulnerability breakdown by severity
-   - AI-powered vs. deterministic scan ratio
-   - Recent simulations with timestamps
-   - Snowflake analytics (if configured)
-   - Gradient cluster status
-
-### Downloading Reports
-
-1. From the demo page after analysis
-2. Click "Download Report"
-3. PDF generated with full vulnerability details
+- Repository analysis
+- Vulnerability scanning
+- Intrusion testing
+- Performance testing
+- AI/code-assistant operations
+- Analytics retrieval
+- Scan history
+- Report generation
+- Result retrieval
 
 ---
 
-## 📚 API Documentation
+# 💪 Key Strengths
 
-### Core Endpoints
+## Unified DevSecOps Platform
 
-#### Upload Repository
-```http
-POST /upload_repo
-Content-Type: application/json
+ThreatForge combines:
 
-{
-  "repo_id": "repository-name",
-  "repo_url": "https://github.com/user/repo"
-}
-```
+**Security + Performance + AI + Reporting**
 
-#### Simulate Attack
-```http
-POST /simulate_attack
-Content-Type: application/json
+in one system.
 
-{
-  "repo_id": "repository-name",
-  "force": false
-}
-```
+## Modular Architecture
 
-**Response includes**:
-- Attack plan with steps
-- Gemini metadata (if AI-generated)
-- Gradient task execution details
-- Sandbox simulation logs
+Each major capability is isolated into a service, making the platform easier to maintain and extend.
 
-#### Get Latest Report
-```http
-GET /reports/{repo_id}/latest
-```
+## Context-Aware AI
 
-#### Analytics Summary (Snowflake)
-```http
-GET /analytics/summary
-```
+FAISS-based semantic retrieval gives the AI assistant access to relevant repository context.
 
-Returns severity distribution:
-```json
-{
-  "critical": 5,
-  "high": 12,
-  "medium": 8,
-  "low": 3
-}
-```
+## Real-World Testing
 
-#### Gradient Status
-```http
-GET /api/gradient/status
-```
+The platform supports analysis of actual GitHub repositories and authorized live application URLs.
 
-### Interactive API Docs
+## Strong Data Model
 
-Visit http://127.0.0.1:8000/docs for full Swagger UI documentation.
+Supabase PostgreSQL provides persistent storage for:
+
+- Scan workflows
+- Security findings
+- Affected files
+- Performance metrics
+- Intrusion runs
+- AI insights
+
+## Production-Oriented Infrastructure
+
+The system incorporates:
+
+- Docker
+- Jenkins CI/CD
+- AWS EC2
+- Nginx
+- HTTPS
+- Vercel
+- Supabase
 
 ---
 
-## 🔌 Integrations
+# 🧩 Architecture at a Glance
 
-### Google Gemini AI
-
-CognitoForge uses Gemini 2.0 Flash for:
-- Contextual attack scenario generation
-- Repository structure analysis
-- Security insight generation
-- Vulnerability prioritization
-
-**Setup**: Add `COGNITOFORGE_GEMINI_API_KEY` to backend `.env`
-
-### Snowflake Data Warehouse
-
-Stores and analyzes:
-- Simulation run metadata
-- Affected files per vulnerability
-- AI-generated insights
-- Historical trends
-
-**Tables Created**:
-- `simulation_runs`
-- `affected_files`
-- `ai_insights`
-
-### DigitalOcean Gradient
-
-AI task execution environment:
-- Configurable compute instances
-- Task metadata tracking
-- Mock mode for development
-
-### Auth0 Authentication
-
-Secure user management:
-- OAuth 2.0 / OpenID Connect
-- Social login support
-- JWT token validation
-
----
-
-## 🔒 Security
-
-### Best Practices Implemented
-
-- ✅ Environment variables for secrets (never committed)
-- ✅ Input validation and sanitization
-- ✅ CORS configuration
-- ✅ Auth0 JWT verification
-- ✅ Rate limiting ready
-- ✅ SQL injection prevention (parameterized queries)
-- ✅ XSS protection (React auto-escaping)
-
-### Responsible Disclosure
-
-Found a security issue? Please create a private security advisory on GitHub or contact the maintainers directly.
+```text
+┌───────────────────────────────────────────────────────────────┐
+│                  FRONTEND + AUTHENTICATION                    │
+│                 Next.js + TypeScript + Auth0                  │
+│                                                               │
+│       Dashboard       Reports       AI Chat       Auth        │
+└───────────────────────────────┬───────────────────────────────┘
+                                │
+                         REST API Requests
+                                │
+┌───────────────────────────────▼───────────────────────────────┐
+│                    BACKEND SERVICE LAYER                      │
+│                         FastAPI                               │
+│                                                               │
+│  ┌────────────┐  ┌────────────┐  ┌────────────┐              │
+│  │    SAST    │  │    DAST    │  │    k6      │              │
+│  │ Vulnerab.  │  │ Intrusion  │  │ Performance│              │
+│  └────────────┘  └────────────┘  └────────────┘              │
+│                                                               │
+│                 ┌─────────────────────┐                       │
+│                 │ AI Code Assistant    │                       │
+│                 │ Gemini + Ollama      │                       │
+│                 │ FAISS Retrieval     │                       │
+│                 └─────────────────────┘                       │
+└───────────────────────────────┬───────────────────────────────┘
+                                │
+                          Result Storage
+                                │
+┌───────────────────────────────▼───────────────────────────────┐
+│                    DATA & PERSISTENCE                         │
+│                  Supabase PostgreSQL                          │
+│                                                               │
+│ scans | findings | affected_files | performance_runs         │
+│ simulation_runs | ai_insights                                  │
+└───────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 🤝 Contributing
+# 🤝 Contributing
 
-We welcome contributions! Please follow these guidelines:
-
-### Development Workflow
-
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
-3. **Commit changes**: `git commit -m 'feat: add amazing feature'`
-4. **Push to branch**: `git push origin feature/amazing-feature`
-5. **Open a Pull Request**
-
-### Code Style
-
-- **Frontend**: ESLint + Prettier (TypeScript)
-- **Backend**: Black + isort + flake8 (Python)
-- **Commits**: Conventional Commits format
-
-### Testing
+Contributions are welcome.
 
 ```bash
-# Backend tests
-cd backend
-pytest
-
-# Frontend tests
-cd frontend
-npm test
+git checkout -b feature/your-feature
+git add .
+git commit -m "feat: add your feature"
+git push origin feature/your-feature
 ```
+
+Then open a pull request.
+
+### Recommended Practices
+
+- Keep backend services modular.
+- Validate API inputs.
+- Never commit secrets.
+- Add tests for new backend functionality.
+- Keep frontend/backend contracts synchronized.
+- Document new environment variables and services.
 
 ---
 
-## 📄 License
+# 📄 License
 
 This project is licensed under the **MIT License**.
 
-### MIT License
-
-```
-MIT License
-
-Copyright (c) 2025 CognitoForge AI
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
-### License Summary
-
-✅ Commercial use  
-✅ Modification  
-✅ Distribution  
-✅ Private use  
-⚠️ No warranty  
-⚠️ No liability  
-
----
-
-## 📞 Support
-
-### Documentation
-
-- **Integration Guide**: [SNOWFLAKE_GRADIENT_INTEGRATION.md](SNOWFLAKE_GRADIENT_INTEGRATION.md)
-- **Implementation Details**: [INTEGRATION_IMPLEMENTATION_SUMMARY.md](INTEGRATION_IMPLEMENTATION_SUMMARY.md)
-- **Quick Start**: [QUICK_START.md](QUICK_START.md)
-- **Setup Guide**: [docs/SETUP.md](docs/SETUP.md)
-- **Auth0 Setup**: [docs/AUTH0_SETUP.md](docs/AUTH0_SETUP.md)
-
-### Community
-
-- **Issues**: [GitHub Issues](https://github.com/n4bi10p/CognitoForge-Ai/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/n4bi10p/CognitoForge-Ai/discussions)
-
-### Roadmap
-
-- [ ] Real-time WebSocket updates
-- [ ] Advanced trend visualization
-- [ ] Multi-language support
-- [ ] CI/CD integration plugins
-- [ ] Custom rule engine
-- [ ] Collaborative workspaces
-- [ ] Integration with popular DevOps tools
-
----
-
-## 🙏 Acknowledgments
-
-- **Google Gemini AI** - Intelligent security analysis
-- **MITRE ATT&CK** - Attack technique framework
-- **Auth0** - Authentication infrastructure
-- **Snowflake** - Data warehousing platform
-- **FastAPI** - High-performance Python web framework
-- **Next.js** - React framework for production
-- **shadcn/ui** - Beautiful UI components
-
----
-
-## 📊 Project Status
-
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen?style=flat-square)
-![Maintained](https://img.shields.io/badge/maintained-yes-brightgreen?style=flat-square)
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)
-
-**Current Version**: 1.0.0  
-**Status**: Active Development  
-**Last Updated**: October 2025
+See the `LICENSE` file for the complete license text.
 
 ---
 
 <div align="center">
 
-### ⭐ Star us on GitHub — it helps!
+### 🛡️ ThreatForge AI
 
-Made with ❤️ by the CognitoForge Team
+**Secure. Test. Analyze. Remediate.**
 
-[Report Bug](https://github.com/n4bi10p/CognitoForge-Ai/issues) • [Request Feature](https://github.com/n4bi10p/CognitoForge-Ai/issues)
+Built as an integrated AI-powered DevSecOps platform.
 
 </div>
