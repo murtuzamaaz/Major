@@ -287,7 +287,8 @@ The current system follows a layered architecture consisting of the **Frontend &
 
 ### System Architecture Diagram
 
-![ThreatForge AI System Architecture](docs/system-architecture.jpg)
+<img width="845" height="1264" alt="systems diagram " src="https://github.com/user-attachments/assets/db1fdb20-ed07-4c55-89d5-336438b3d735" />
+
 
 > **Architecture diagram:** The diagram above represents the current service boundaries, request flow, AI analysis components and Supabase persistence model.
 
